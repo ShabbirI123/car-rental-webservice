@@ -18,7 +18,7 @@ use App\Http\Controllers\CarRentalController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post("/todo/store",[CarRentalController::class,"store"]);
+Route::post("/user/store",[CarRentalController::class,"store"]);
 
 /*Route::group(["prefix"=>"CarRental"],function(){
     Route::get("/get/{id}",[CarRentalController::class,"get"]);

@@ -1,22 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class CarRentalController extends Controller
+class CarRentalUserController extends Controller
 {
-    protected $todo;
+    protected $users;
 
-    /*public function __construct(Todo $todo){
-        $this->todo = $todo;
+    /*public function __construct(users $users){
+        $this->users = $users;
     }*/
 
     /**
-     * Create Todo
+     * Create users
      * @OA\Post (
-     *     path="/api/todo/store",
-     *     tags={"ToDo"},
+     *     path="/car-rental/api/v1/users/store",
+     *     tags={"users"},
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",
@@ -60,7 +61,7 @@ class CarRentalController extends Controller
      * )
      */
     public function store(Request $request){
-        //$todo = $this->todo->createTodo($request->all());
+        //$users = $this->users->createusers($request->all());
         $data = [
             'status' => 'success',
             'message' => 'Hello World!'
@@ -69,10 +70,10 @@ class CarRentalController extends Controller
     }
 
     /**
-     * Update Todo
+     * Update users
      * @OA\Put (
-     *     path="/api/todo/update/{id}",
-     *     tags={"ToDo"},
+     *     path="/car-rental/api/v1/users/update/{id}",
+     *     tags={"users"},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -116,18 +117,18 @@ class CarRentalController extends Controller
      */
     public function update($id, Request $request){
         try {
-            $todo = $this->todo->updateTodo($id,$request->all());
-            return response()->json($todo);
+            $users = $this->users->updateusers($id,$request->all());
+            return response()->json($users);
         }catch (ModelNotFoundException $exception){
             return response()->json(["msg"=>$exception->getMessage()],404);
         }
     }
 
     /**
-     * Get Detail Todo
+     * Get Detail users
      * @OA\Get (
-     *     path="/api/todo/get/{id}",
-     *     tags={"ToDo"},
+     *     path="/car-rental/api/v1/users/get/{id}",
+     *     tags={"users"},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -148,18 +149,18 @@ class CarRentalController extends Controller
      * )
      */
     public function get($id){
-        $todo = $this->todo->getTodo($id);
-        if($todo){
-            return response()->json($todo);
+        $users = $this->users->getusers($id);
+        if($users){
+            return response()->json($users);
         }
-        return response()->json(["msg"=>"Todo item not found"],404);
+        return response()->json(["msg"=>"users item not found"],404);
     }
 
     /**
-     * Get List Todo
+     * Get List users
      * @OA\Get (
-     *     path="/api/todo/gets",
-     *     tags={"ToDo"},
+     *     path="/car-rental/api/v1/users/gets",
+     *     tags={"users"},
      *     @OA\Response(
      *         response=200,
      *         description="success",
@@ -201,15 +202,15 @@ class CarRentalController extends Controller
      * )
      */
     public function gets(){
-        $todos = $this->todo->getsTodo();
-        return response()->json(["rows"=>$todos]);
+        $userss = $this->users->getsusers();
+        return response()->json(["rows"=>$userss]);
     }
 
     /**
-     * Delete Todo
+     * Delete users
      * @OA\Delete (
-     *     path="/api/todo/delete/{id}",
-     *     tags={"ToDo"},
+     *     path="/car-rental/api/v1/users/delete/{id}",
+     *     tags={"users"},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
@@ -220,15 +221,15 @@ class CarRentalController extends Controller
      *         response=200,
      *         description="success",
      *         @OA\JsonContent(
-     *             @OA\Property(property="msg", type="string", example="delete todo success")
+     *             @OA\Property(property="msg", type="string", example="delete users success")
      *         )
      *     )
      * )
      */
     public function delete($id){
         try {
-            $todo = $this->todo->deleteTodo($id);
-            return response()->json(["msg"=>"delete todo success"]);
+            $users = $this->users->deleteusers($id);
+            return response()->json(["msg"=>"delete users success"]);
         }catch (ModelNotFoundException $exception){
             return response()->json(["msg"=>$exception->getMessage()],404);
         }

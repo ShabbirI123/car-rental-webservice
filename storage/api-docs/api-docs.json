@@ -6,13 +6,13 @@
         "version": "1.0"
     },
     "paths": {
-        "/api/todo/store": {
+        "/cars-rental/api/v1/cars/store": {
             "post": {
                 "tags": [
-                    "ToDo"
+                    "cars"
                 ],
-                "summary": "Create Todo",
-                "operationId": "b6c061a0abd827ce3e91cd8376fddf41",
+                "summary": "Create cars",
+                "operationId": "9f96593d4e958bee9ad5eb68faee93f4",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -91,13 +91,13 @@
                 }
             }
         },
-        "/api/todo/update/{id}": {
+        "/cars-rental/api/v1/cars/update/{id}": {
             "put": {
                 "tags": [
-                    "ToDo"
+                    "cars"
                 ],
-                "summary": "Update Todo",
-                "operationId": "03d9719f06e46de417ad74d8a76f50e2",
+                "summary": "Update cars",
+                "operationId": "40aed9c0bff7deada8719e4554fb978e",
                 "parameters": [
                     {
                         "name": "id",
@@ -170,13 +170,13 @@
                 }
             }
         },
-        "/api/todo/get/{id}": {
+        "/cars-rental/api/v1/cars/get/{id}": {
             "get": {
                 "tags": [
-                    "ToDo"
+                    "cars"
                 ],
-                "summary": "Get Detail Todo",
-                "operationId": "6b34992a9764e3b9c7204b85c091c2e5",
+                "summary": "Get Detail cars",
+                "operationId": "78ec8104e7592c826038224c1029660a",
                 "parameters": [
                     {
                         "name": "id",
@@ -223,13 +223,13 @@
                 }
             }
         },
-        "/api/todo/gets": {
+        "/cars-rental/api/v1/cars/gets": {
             "get": {
                 "tags": [
-                    "ToDo"
+                    "cars"
                 ],
-                "summary": "Get List Todo",
-                "operationId": "4dca3242e0038a6f4ac66cbe93369595",
+                "summary": "Get List cars",
+                "operationId": "20b8a37c5a024e1c57f59711feca5454",
                 "responses": {
                     "200": {
                         "description": "success",
@@ -274,13 +274,13 @@
                 }
             }
         },
-        "/api/todo/delete/{id}": {
+        "/cars-rental/api/v1/cars/delete/{id}": {
             "delete": {
                 "tags": [
-                    "ToDo"
+                    "cars"
                 ],
-                "summary": "Delete Todo",
-                "operationId": "80f4a35b5deb819e98b4e44496fc1d69",
+                "summary": "Delete cars",
+                "operationId": "9550b9132ab66d9bc3a56c8ef866f8f1",
                 "parameters": [
                     {
                         "name": "id",
@@ -300,7 +300,312 @@
                                     "properties": {
                                         "msg": {
                                             "type": "string",
-                                            "example": "delete todo success"
+                                            "example": "delete cars success"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/car-rental/api/v1/users/store": {
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Create users",
+                "operationId": "13ad10189dfeea488b1e2912f26f731c",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "title": {
+                                                "type": "string"
+                                            },
+                                            "content": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "title": "example title",
+                                    "content": "example content"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "title"
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "example": "content"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/car-rental/api/v1/users/update/{id}": {
+            "put": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Update users",
+                "operationId": "852e41507308c387f1a9d799111a001c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "title": {
+                                                "type": "string"
+                                            },
+                                            "content": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "title": "example title",
+                                    "content": "example content"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "title"
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "example": "content"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/car-rental/api/v1/users/get/{id}": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Get Detail users",
+                "operationId": "cf583fa1d83ff4f0d6d81d7573a65d53",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "title"
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "example": "content"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/car-rental/api/v1/users/gets": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Get List users",
+                "operationId": "52e936e65c94f48e7209532e548aabb8",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "rows": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "_id": {
+                                                        "type": "number",
+                                                        "example": "1"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "example title"
+                                                    },
+                                                    "content": {
+                                                        "type": "string",
+                                                        "example": "example content"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2021-12-11T09:25:53.000000Z"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2021-12-11T09:25:53.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/car-rental/api/v1/users/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Delete users",
+                "operationId": "0e851de20013e98b65422674a9f45431",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "delete users success"
                                         }
                                     },
                                     "type": "object"
