@@ -6,6 +6,311 @@
         "version": "1.0"
     },
     "paths": {
+        "/bookings-rental/api/v1/bookings/store": {
+            "post": {
+                "tags": [
+                    "bookings"
+                ],
+                "summary": "Create Bookings",
+                "operationId": "b5ff479d8a3b0a3bcf8d70c6d0810fc4",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "title": {
+                                                "type": "string"
+                                            },
+                                            "content": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "title": "example title",
+                                    "content": "example content"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "title"
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "example": "content"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "invalid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bookings-rental/api/v1/bookings/update/{id}": {
+            "put": {
+                "tags": [
+                    "bookings"
+                ],
+                "summary": "Update bookings",
+                "operationId": "c7abc71417823577523160c88cbe417c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "title": {
+                                                "type": "string"
+                                            },
+                                            "content": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "title": "example title",
+                                    "content": "example content"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "title"
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "example": "content"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bookings-rental/api/v1/bookings/get/{id}": {
+            "get": {
+                "tags": [
+                    "bookings"
+                ],
+                "summary": "Get Detail bookings",
+                "operationId": "5684934607e60fd8b6d1f4f82c65ff19",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "title"
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "example": "content"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bookings-rental/api/v1/bookings/gets": {
+            "get": {
+                "tags": [
+                    "bookings"
+                ],
+                "summary": "Get List bookings",
+                "operationId": "17f75c14cd6ba611109b501e891d16ea",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "rows": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "_id": {
+                                                        "type": "number",
+                                                        "example": "1"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "example title"
+                                                    },
+                                                    "content": {
+                                                        "type": "string",
+                                                        "example": "example content"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2021-12-11T09:25:53.000000Z"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2021-12-11T09:25:53.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/bookings-rental/api/v1/bookings/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "bookings"
+                ],
+                "summary": "Delete bookings",
+                "operationId": "de3fc9df566fe0412a676e4fc1db0754",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "delete bookings success"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/cars-rental/api/v1/cars/store": {
             "post": {
                 "tags": [
