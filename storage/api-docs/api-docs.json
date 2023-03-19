@@ -6,81 +6,79 @@
         "version": "1.0"
     },
     "paths": {
-        "/cars-rental/api/v1/cars/store": {
+        "/car-rental/api/v1/bookings": {
             "post": {
                 "tags": [
-                    "cars"
+                    "bookings"
                 ],
-                "summary": "Create cars",
-                "operationId": "9f96593d4e958bee9ad5eb68faee93f4",
+                "summary": "Create a car booking",
+                "operationId": "158316d3a1524549ebc160af1511203c",
                 "requestBody": {
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "": {
-                                        "properties": {
-                                            "title": {
-                                                "type": "string"
-                                            },
-                                            "content": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "type": "object"
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "car_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "start_date": {
+                                        "type": "string",
+                                        "example": "2023-04-01"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "example": "2023-04-05"
                                     }
                                 },
-                                "type": "object",
-                                "example": {
-                                    "title": "example title",
-                                    "content": "example content"
-                                }
+                                "type": "object"
                             }
                         }
                     }
                 },
                 "responses": {
-                    "200": {
-                        "description": "success",
+                    "201": {
+                        "description": "created",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "id": {
-                                            "type": "number",
+                                        "booking_id": {
+                                            "type": "integer",
                                             "example": 1
                                         },
-                                        "title": {
-                                            "type": "string",
-                                            "example": "title"
+                                        "car_id": {
+                                            "type": "integer",
+                                            "example": 1
                                         },
-                                        "content": {
-                                            "type": "string",
-                                            "example": "content"
+                                        "user_id": {
+                                            "type": "integer",
+                                            "example": 1
                                         },
-                                        "updated_at": {
+                                        "start_date": {
                                             "type": "string",
-                                            "example": "2021-12-11T09:25:53.000000Z"
+                                            "format": "date-time",
+                                            "example": "2023-04-01T00:00:00.000000Z"
+                                        },
+                                        "end_date": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-04-05T00:00:00.000000Z"
                                         },
                                         "created_at": {
                                             "type": "string",
-                                            "example": "2021-12-11T09:25:53.000000Z"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "invalid",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "msg": {
+                                            "format": "date-time",
+                                            "example": "2023-03-18T09:25:53.000000Z"
+                                        },
+                                        "updated_at": {
                                             "type": "string",
-                                            "example": "fail"
+                                            "format": "date-time",
+                                            "example": "2023-03-18T09:25:53.000000Z"
                                         }
                                     },
                                     "type": "object"
@@ -91,45 +89,102 @@
                 }
             }
         },
-        "/cars-rental/api/v1/cars/update/{id}": {
+        "/car-rental/api/v1/bookings/{id}": {
+            "get": {
+                "tags": [
+                    "bookings"
+                ],
+                "summary": "Get a specific car booking",
+                "operationId": "d0cf74e3267add49121c4ea03ea760b3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "booking_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "car_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "user_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "start_date": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-04-01T00:00:00.000000Z"
+                                        },
+                                        "end_date": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-04-05T00:00:00.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-03-18T09:25:53.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-03-18T09:25:53.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "put": {
                 "tags": [
-                    "cars"
+                    "bookings"
                 ],
-                "summary": "Update cars",
-                "operationId": "40aed9c0bff7deada8719e4554fb978e",
+                "summary": "Update a car booking",
+                "operationId": "10b366f6bcbf3ec88aca732eb960f461",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     }
                 ],
                 "requestBody": {
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "": {
-                                        "properties": {
-                                            "title": {
-                                                "type": "string"
-                                            },
-                                            "content": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "type": "object"
+                                    "start_date": {
+                                        "type": "string",
+                                        "example": "2023-04-01"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "example": "2023-04-05"
                                     }
                                 },
-                                "type": "object",
-                                "example": {
-                                    "title": "example title",
-                                    "content": "example content"
-                                }
+                                "type": "object"
                             }
                         }
                     }
@@ -141,25 +196,128 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "id": {
-                                            "type": "number",
+                                        "booking_id": {
+                                            "type": "integer",
                                             "example": 1
                                         },
-                                        "title": {
-                                            "type": "string",
-                                            "example": "title"
+                                        "car_id": {
+                                            "type": "integer",
+                                            "example": 1
                                         },
-                                        "content": {
-                                            "type": "string",
-                                            "example": "content"
+                                        "user_id": {
+                                            "type": "integer",
+                                            "example": 1
                                         },
-                                        "updated_at": {
+                                        "start_date": {
                                             "type": "string",
-                                            "example": "2021-12-11T09:25:53.000000Z"
+                                            "format": "date-time",
+                                            "example": "2023-04-01T00:00:00.000000Z"
+                                        },
+                                        "end_date": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-04-05T00:00:00.000000Z"
                                         },
                                         "created_at": {
                                             "type": "string",
-                                            "example": "2021-12-11T09:25:53.000000Z"
+                                            "format": "date-time",
+                                            "example": "2023-03-18T09:25:53.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2023-03-18T09:25:53.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "bookings"
+                ],
+                "summary": "Delete a car booking",
+                "operationId": "a803bf5441fd1ec2bda8acee7972a299",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "deleted"
+                    }
+                }
+            }
+        },
+        "/car-rental/api/v1/users/{user_id}/bookings": {
+            "get": {
+                "tags": [
+                    "bookings"
+                ],
+                "summary": "Get all bookings for a specific user",
+                "operationId": "5de59a4498109db701dd357f2672f818",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "bookings": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "booking_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "car_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "start_date": {
+                                                        "type": "string",
+                                                        "example": "2023-01-01"
+                                                    },
+                                                    "end_date": {
+                                                        "type": "string",
+                                                        "example": "2023-01-07"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2023-01-01T00:00:00.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2023-01-01T00:00:00.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -170,13 +328,13 @@
                 }
             }
         },
-        "/cars-rental/api/v1/cars/get/{id}": {
+        "/car-rental/api/v1/cars/{id}": {
             "get": {
                 "tags": [
                     "cars"
                 ],
-                "summary": "Get Detail cars",
-                "operationId": "78ec8104e7592c826038224c1029660a",
+                "summary": "Get car details",
+                "operationId": "05a3ea36b4eeca0429ca37c324d010b3",
                 "parameters": [
                     {
                         "name": "id",
@@ -223,13 +381,13 @@
                 }
             }
         },
-        "/cars-rental/api/v1/cars/gets": {
+        "/car-rental/api/v1/cars": {
             "get": {
                 "tags": [
                     "cars"
                 ],
-                "summary": "Get List cars",
-                "operationId": "20b8a37c5a024e1c57f59711feca5454",
+                "summary": "Get cars list",
+                "operationId": "5ce09fe636d624cb114991250e0bbbb2",
                 "responses": {
                     "200": {
                         "description": "success",
@@ -274,50 +432,13 @@
                 }
             }
         },
-        "/cars-rental/api/v1/cars/delete/{id}": {
-            "delete": {
-                "tags": [
-                    "cars"
-                ],
-                "summary": "Delete cars",
-                "operationId": "9550b9132ab66d9bc3a56c8ef866f8f1",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "msg": {
-                                            "type": "string",
-                                            "example": "delete cars success"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/car-rental/api/v1/users/store": {
+        "/car-rental/api/v1/users/login": {
             "post": {
                 "tags": [
                     "users"
                 ],
-                "summary": "Create users",
-                "operationId": "13ad10189dfeea488b1e2912f26f731c",
+                "summary": "Authenticate user",
+                "operationId": "544cd48f8c888ab186fbc18440dc16fe",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -325,10 +446,10 @@
                                 "properties": {
                                     "": {
                                         "properties": {
-                                            "title": {
+                                            "email": {
                                                 "type": "string"
                                             },
-                                            "content": {
+                                            "password": {
                                                 "type": "string"
                                             }
                                         },
@@ -337,8 +458,8 @@
                                 },
                                 "type": "object",
                                 "example": {
-                                    "title": "example title",
-                                    "content": "example content"
+                                    "email": "johndoe@example.com",
+                                    "password": "password123"
                                 }
                             }
                         }
@@ -355,21 +476,21 @@
                                             "type": "number",
                                             "example": 1
                                         },
-                                        "title": {
+                                        "firstname": {
                                             "type": "string",
-                                            "example": "title"
+                                            "example": "John"
                                         },
-                                        "content": {
+                                        "lastname": {
                                             "type": "string",
-                                            "example": "content"
+                                            "example": "Doe"
                                         },
-                                        "updated_at": {
+                                        "email": {
                                             "type": "string",
-                                            "example": "2021-12-11T09:25:53.000000Z"
+                                            "example": "johndoe@example.com"
                                         },
-                                        "created_at": {
+                                        "token": {
                                             "type": "string",
-                                            "example": "2021-12-11T09:25:53.000000Z"
+                                            "example": "10293182301230123"
                                         }
                                     },
                                     "type": "object"
@@ -377,94 +498,31 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "invalid",
+                    "403": {
+                        "description": "Unauthorized: Invalid credentials",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "msg": {
                                             "type": "string",
-                                            "example": "fail"
+                                            "example": "Invalid credentials"
                                         }
                                     },
                                     "type": "object"
                                 }
                             }
                         }
-                    }
-                }
-            }
-        },
-        "/car-rental/api/v1/users/update/{id}": {
-            "put": {
-                "tags": [
-                    "users"
-                ],
-                "summary": "Update users",
-                "operationId": "852e41507308c387f1a9d799111a001c",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "": {
-                                        "properties": {
-                                            "title": {
-                                                "type": "string"
-                                            },
-                                            "content": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "type": "object"
-                                    }
-                                },
-                                "type": "object",
-                                "example": {
-                                    "title": "example title",
-                                    "content": "example content"
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "success",
+                    },
+                    "404": {
+                        "description": "User not found",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "id": {
-                                            "type": "number",
-                                            "example": 1
-                                        },
-                                        "title": {
+                                        "msg": {
                                             "type": "string",
-                                            "example": "title"
-                                        },
-                                        "content": {
-                                            "type": "string",
-                                            "example": "content"
-                                        },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "example": "2021-12-11T09:25:53.000000Z"
-                                        },
-                                        "created_at": {
-                                            "type": "string",
-                                            "example": "2021-12-11T09:25:53.000000Z"
+                                            "example": "User not found"
                                         }
                                     },
                                     "type": "object"
@@ -475,66 +533,13 @@
                 }
             }
         },
-        "/car-rental/api/v1/users/get/{id}": {
+        "/car-rental/api/v1/users": {
             "get": {
                 "tags": [
                     "users"
                 ],
-                "summary": "Get Detail users",
-                "operationId": "cf583fa1d83ff4f0d6d81d7573a65d53",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "id": {
-                                            "type": "number",
-                                            "example": 1
-                                        },
-                                        "title": {
-                                            "type": "string",
-                                            "example": "title"
-                                        },
-                                        "content": {
-                                            "type": "string",
-                                            "example": "content"
-                                        },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "example": "2021-12-11T09:25:53.000000Z"
-                                        },
-                                        "created_at": {
-                                            "type": "string",
-                                            "example": "2021-12-11T09:25:53.000000Z"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/car-rental/api/v1/users/gets": {
-            "get": {
-                "tags": [
-                    "users"
-                ],
-                "summary": "Get List users",
-                "operationId": "52e936e65c94f48e7209532e548aabb8",
+                "summary": "Get all users",
+                "operationId": "69e4959835b07b7c26dbb5842937e2f7",
                 "responses": {
                     "200": {
                         "description": "success",
@@ -577,15 +582,139 @@
                         }
                     }
                 }
-            }
-        },
-        "/car-rental/api/v1/users/delete/{id}": {
-            "delete": {
+            },
+            "post": {
                 "tags": [
                     "users"
                 ],
-                "summary": "Delete users",
-                "operationId": "0e851de20013e98b65422674a9f45431",
+                "summary": "Create user",
+                "operationId": "ce3505aeac8149c112c6c64c4c6c42c4",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "firstname": {
+                                                "type": "string"
+                                            },
+                                            "lastname": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "password": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "firstname": "John",
+                                    "lastname": "Doe",
+                                    "email": "johndoe@example.com",
+                                    "password": "password123"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Registration successful"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "conflict",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "User already exists"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/car-rental/api/v1/users/{id}": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Get user data",
+                "operationId": "db3294aa3278bf5d7c98c22269363fcc",
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "rows": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "_id": {
+                                                        "type": "number",
+                                                        "example": "1"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "example title"
+                                                    },
+                                                    "content": {
+                                                        "type": "string",
+                                                        "example": "example content"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2021-12-11T09:25:53.000000Z"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2021-12-11T09:25:53.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Modify user data",
+                "operationId": "e50c79dd56e05e1d0101c1863fbc9b1e",
                 "parameters": [
                     {
                         "name": "id",
@@ -594,10 +723,91 @@
                         "schema": {
                             "type": "string"
                         }
+                    },
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "token": {
+                                    "type": "string",
+                                    "example": "10293182301230123"
+                                }
+                            },
+                            "type": "object"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
+                        "description": "success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "number",
+                                            "example": 1
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "title"
+                                        },
+                                        "content": {
+                                            "type": "string",
+                                            "example": "content"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/car-rental/api/v1/users/deletion/{id}": {
+            "delete": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Delete user",
+                "operationId": "86dba5bab4b5c9a30885077af1f60a99",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "token": {
+                                    "type": "string",
+                                    "example": "10293182301230123"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
                         "description": "success",
                         "content": {
                             "application/json": {

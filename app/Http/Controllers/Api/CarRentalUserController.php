@@ -14,9 +14,9 @@ class CarRentalUserController extends Controller
     }*/
 
     /**
-     * Create users
+     * Authenticate user
      * @OA\Post (
-     *     path="/car-rental/api/v1/users/store",
+     *     path="/car-rental/api/v1/users/login",
      *     tags={"users"},
      *     @OA\RequestBody(
      *         @OA\MediaType(
@@ -25,17 +25,17 @@ class CarRentalUserController extends Controller
      *                 @OA\Property(
      *                      type="object",
      *                      @OA\Property(
-     *                          property="title",
+     *                          property="email",
      *                          type="string"
      *                      ),
      *                      @OA\Property(
-     *                          property="content",
+     *                          property="password",
      *                          type="string"
      *                      )
      *                 ),
      *                 example={
-     *                     "title":"example title",
-     *                     "content":"example content"
+     *                     "email":"johndoe@example.com",
+     *                     "password":"password123"
      *                }
      *             )
      *         )
@@ -45,22 +45,30 @@ class CarRentalUserController extends Controller
      *          description="success",
      *          @OA\JsonContent(
      *              @OA\Property(property="id", type="number", example=1),
-     *              @OA\Property(property="title", type="string", example="title"),
-     *              @OA\Property(property="content", type="string", example="content"),
-     *              @OA\Property(property="updated_at", type="string", example="2021-12-11T09:25:53.000000Z"),
-     *              @OA\Property(property="created_at", type="string", example="2021-12-11T09:25:53.000000Z"),
+     *              @OA\Property(property="firstname", type="string", example="John"),
+     *              @OA\Property(property="lastname", type="string", example="Doe"),
+     *              @OA\Property(property="email", type="string", example="johndoe@example.com"),
+     *              @OA\Property(property="token", type="string", example="10293182301230123"),
      *          )
      *      ),
      *      @OA\Response(
-     *          response=400,
-     *          description="invalid",
+     *          response=403,
+     *          description="Unauthorized: Invalid credentials",
      *          @OA\JsonContent(
-     *              @OA\Property(property="msg", type="string", example="fail"),
+     *              @OA\Property(property="msg", type="string", example="Invalid credentials"),
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="User not found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="msg", type="string", example="User not found"),
      *          )
      *      )
      * )
      */
-    public function store(Request $request){
+    public function authenticateUser(Request $request)
+    {
         //$users = $this->users->createusers($request->all());
         $data = [
             'status' => 'success',
@@ -70,16 +78,10 @@ class CarRentalUserController extends Controller
     }
 
     /**
-     * Update users
-     * @OA\Put (
-     *     path="/car-rental/api/v1/users/update/{id}",
+     * Create user
+     * @OA\Post (
+     *     path="/car-rental/api/v1/users",
      *     tags={"users"},
-     *     @OA\Parameter(
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(type="string")
-     *     ),
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",
@@ -87,53 +89,80 @@ class CarRentalUserController extends Controller
      *                 @OA\Property(
      *                      type="object",
      *                      @OA\Property(
-     *                          property="title",
+     *                          property="firstname",
      *                          type="string"
      *                      ),
      *                      @OA\Property(
-     *                          property="content",
+     *                          property="lastname",
+     *                          type="string"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="email",
+     *                          type="string"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="password",
      *                          type="string"
      *                      )
      *                 ),
      *                 example={
-     *                     "title":"example title",
-     *                     "content":"example content"
+     *                     "firstname":"John",
+     *                     "lastname":"Doe",
+     *                     "email":"johndoe@example.com",
+     *                     "password":"password123"
      *                }
      *             )
      *         )
      *      ),
      *      @OA\Response(
-     *          response=200,
+     *          response=201,
      *          description="success",
      *          @OA\JsonContent(
-     *              @OA\Property(property="id", type="number", example=1),
-     *              @OA\Property(property="title", type="string", example="title"),
-     *              @OA\Property(property="content", type="string", example="content"),
-     *              @OA\Property(property="updated_at", type="string", example="2021-12-11T09:25:53.000000Z"),
-     *              @OA\Property(property="created_at", type="string", example="2021-12-11T09:25:53.000000Z")
+     *              @OA\Property(property="msg", type="string", example="Registration successful")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=409,
+     *          description="conflict",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="msg", type="string", example="User already exists")
      *          )
      *      )
      * )
      */
-    public function update($id, Request $request){
+    public function createUser(Request $request)
+    {
         try {
-            $users = $this->users->updateusers($id,$request->all());
+            $users = $this->users->updateusers($id, $request->all());
             return response()->json($users);
-        }catch (ModelNotFoundException $exception){
-            return response()->json(["msg"=>$exception->getMessage()],404);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(["msg" => $exception->getMessage()], 404);
         }
     }
 
     /**
-     * Get Detail users
-     * @OA\Get (
-     *     path="/car-rental/api/v1/users/get/{id}",
+     * Modify user data
+     * @OA\Put (
+     *     path="/car-rental/api/v1/users/{id}",
      *     tags={"users"},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
      *         required=true,
      *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *          in="header",
+     *          name="token",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="token",
+     *                  type="string",
+     *                  example="10293182301230123"
+     *              )
+     *          )
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -148,18 +177,19 @@ class CarRentalUserController extends Controller
      *     )
      * )
      */
-    public function get($id){
+    public function modifyUserData($id, Request $request)
+    {
         $users = $this->users->getusers($id);
-        if($users){
+        if ($users) {
             return response()->json($users);
         }
-        return response()->json(["msg"=>"users item not found"],404);
+        return response()->json(["msg" => "users item not found"], 404);
     }
 
     /**
-     * Get List users
-     * @OA\Get (
-     *     path="/car-rental/api/v1/users/gets",
+     * Get user data
+     * @OA\Get  (
+     *     path="/car-rental/api/v1/users/{id}",
      *     tags={"users"},
      *     @OA\Response(
      *         response=200,
@@ -201,15 +231,66 @@ class CarRentalUserController extends Controller
      *     )
      * )
      */
-    public function gets(){
+    public function getUserData($id)
+    {
         $userss = $this->users->getsusers();
-        return response()->json(["rows"=>$userss]);
+        return response()->json(["rows" => $userss]);
     }
 
     /**
-     * Delete users
+     * Get all users
+     * @OA\Get  (
+     *     path="/car-rental/api/v1/users",
+     *     tags={"users"},
+     *      @OA\Response(
+     *         response=200,
+     *         description="success",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 type="array",
+     *                 property="rows",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="_id",
+     *                         type="number",
+     *                         example="1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="title",
+     *                         type="string",
+     *                         example="example title"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="content",
+     *                         type="string",
+     *                         example="example content"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="updated_at",
+     *                         type="string",
+     *                         example="2021-12-11T09:25:53.000000Z"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="created_at",
+     *                         type="string",
+     *                         example="2021-12-11T09:25:53.000000Z"
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function getAllUsers()
+    {
+
+    }
+
+    /**
+     * Delete user
      * @OA\Delete (
-     *     path="/car-rental/api/v1/users/delete/{id}",
+     *     path="/car-rental/api/v1/users/deletion/{id}",
      *     tags={"users"},
      *     @OA\Parameter(
      *         in="path",
@@ -217,8 +298,21 @@ class CarRentalUserController extends Controller
      *         required=true,
      *         @OA\Schema(type="string")
      *     ),
+     *      @OA\Parameter(
+     *          in="header",
+     *          name="token",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="token",
+     *                  type="string",
+     *                  example="10293182301230123"
+     *              )
+     *          )
+     *     ),
      *     @OA\Response(
-     *         response=200,
+     *         response=204,
      *         description="success",
      *         @OA\JsonContent(
      *             @OA\Property(property="msg", type="string", example="delete users success")
@@ -226,12 +320,13 @@ class CarRentalUserController extends Controller
      *     )
      * )
      */
-    public function delete($id){
+    public function deleteUser($id)
+    {
         try {
             $users = $this->users->deleteusers($id);
-            return response()->json(["msg"=>"delete users success"]);
-        }catch (ModelNotFoundException $exception){
-            return response()->json(["msg"=>$exception->getMessage()],404);
+            return response()->json(["msg" => "delete users success"]);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(["msg" => $exception->getMessage()], 404);
         }
     }
 }
