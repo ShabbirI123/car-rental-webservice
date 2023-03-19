@@ -12,226 +12,178 @@ class CarRentalBookingController extends Controller
     /*public function __construct(bookings $bookings){
         $this->bookings = $bookings;
     }*/
-
     /**
-     * Create bookings
-     * @OA\Post (
-     *     path="/bookings-rental/api/v1/bookings/store",
-     *     tags={"bookings"},
-     *     @OA\RequestBody(
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 @OA\Property(
-     *                      type="object",
-     *                      @OA\Property(
-     *                          property="title",
-     *                          type="string"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="content",
-     *                          type="string"
-     *                      )
-     *                 ),
-     *                 example={
-     *                     "title":"example title",
-     *                     "content":"example content"
-     *                }
-     *             )
-     *         )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="id", type="number", example=1),
-     *              @OA\Property(property="title", type="string", example="title"),
-     *              @OA\Property(property="content", type="string", example="content"),
-     *              @OA\Property(property="updated_at", type="string", example="2021-12-11T09:25:53.000000Z"),
-     *              @OA\Property(property="created_at", type="string", example="2021-12-11T09:25:53.000000Z"),
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=400,
-     *          description="invalid",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="msg", type="string", example="fail"),
-     *          )
-     *      )
+     * @OA\Schema(
+     *     schema="Booking",
+     *     required={"booking_id", "car_id", "user_id", "start_date", "end_date", "created_at", "updated_at"},
+     *     @OA\Property(property="booking_id", type="integer", example=1),
+     *     @OA\Property(property="car_id", type="integer", example=1),
+     *     @OA\Property(property="user_id", type="integer", example=1),
+     *     @OA\Property(property="start_date", type="string", format="date-time", example="2023-04-01T00:00:00.000000Z"),
+     *     @OA\Property(property="end_date", type="string", format="date-time", example="2023-04-05T00:00:00.000000Z"),
+     *     @OA\Property(property="created_at", type="string", format="date-time", example="2023-03-18T09:25:53.000000Z"),
+     *     @OA\Property(property="updated_at", type="string", format="date-time", example="2023-03-18T09:25:53.000000Z")
      * )
      */
-    public function store(Request $request){
-        //$bookings = $this->bookings->createbookings($request->all());
-        $data = [
-            'status' => 'success',
-            'message' => 'Hello World!'
-        ];
-        return response()->json($data);
+
+    /**
+     * Create a car booking
+     * @OA\Post(
+     *     path="/car-rental/api/v1/bookings",
+     *     tags={"bookings"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="user_id", type="integer", example=1),
+     *             @OA\Property(property="car_id", type="integer", example=2),
+     *             @OA\Property(property="start_date", type="string", example="2023-04-01"),
+     *             @OA\Property(property="end_date", type="string", example="2023-04-05")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="created",
+     *         @OA\JsonContent(
+     *              @OA\Property(property="booking_id", type="integer", example=1),
+     *              @OA\Property(property="car_id", type="integer", example=1),
+     *              @OA\Property(property="user_id", type="integer", example=1),
+     *              @OA\Property(property="start_date", type="string", format="date-time", example="2023-04-01T00:00:00.000000Z"),
+     *              @OA\Property(property="end_date", type="string", format="date-time", example="2023-04-05T00:00:00.000000Z"),
+     *              @OA\Property(property="created_at", type="string", format="date-time", example="2023-03-18T09:25:53.000000Z"),
+     *              @OA\Property(property="updated_at", type="string", format="date-time", example="2023-03-18T09:25:53.000000Z")
+     *         )
+     *     )
+     * )
+     */
+    public function create(Request $request)
+    {
+        // Create a car booking and return the created booking object
     }
 
     /**
-     * Update bookings
-     * @OA\Put (
-     *     path="/bookings-rental/api/v1/bookings/update/{id}",
+     * Update a car booking
+     * @OA\Put(
+     *     path="/car-rental/api/v1/bookings/{id}",
      *     tags={"bookings"},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
      *         required=true,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\RequestBody(
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 @OA\Property(
-     *                      type="object",
-     *                      @OA\Property(
-     *                          property="title",
-     *                          type="string"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="content",
-     *                          type="string"
-     *                      )
-     *                 ),
-     *                 example={
-     *                     "title":"example title",
-     *                     "content":"example content"
-     *                }
-     *             )
-     *         )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="success",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="id", type="number", example=1),
-     *              @OA\Property(property="title", type="string", example="title"),
-     *              @OA\Property(property="content", type="string", example="content"),
-     *              @OA\Property(property="updated_at", type="string", example="2021-12-11T09:25:53.000000Z"),
-     *              @OA\Property(property="created_at", type="string", example="2021-12-11T09:25:53.000000Z")
-     *          )
-     *      )
-     * )
-     */
-    public function update($id, Request $request){
-        try {
-            $bookings = $this->bookings->updatebookings($id,$request->all());
-            return response()->json($bookings);
-        }catch (ModelNotFoundException $exception){
-            return response()->json(["msg"=>$exception->getMessage()],404);
-        }
-    }
-
-    /**
-     * Get Detail bookings
-     * @OA\Get (
-     *     path="/bookings-rental/api/v1/bookings/get/{id}",
-     *     tags={"bookings"},
-     *     @OA\Parameter(
-     *         in="path",
-     *         name="id",
      *         required=true,
-     *         @OA\Schema(type="string")
+     *         @OA\JsonContent(
+     *             @OA\Property(property="start_date", type="string", example="2023-04-01"),
+     *             @OA\Property(property="end_date", type="string", example="2023-04-05")
+     *         )
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="success",
      *         @OA\JsonContent(
-     *              @OA\Property(property="id", type="number", example=1),
-     *              @OA\Property(property="title", type="string", example="title"),
-     *              @OA\Property(property="content", type="string", example="content"),
-     *              @OA\Property(property="updated_at", type="string", example="2021-12-11T09:25:53.000000Z"),
-     *              @OA\Property(property="created_at", type="string", example="2021-12-11T09:25:53.000000Z")
+     *              @OA\Property(property="booking_id", type="integer", example=1),
+     *              @OA\Property(property="car_id", type="integer", example=1),
+     *              @OA\Property(property="user_id", type="integer", example=1),
+     *              @OA\Property(property="start_date", type="string", format="date-time", example="2023-04-01T00:00:00.000000Z"),
+     *              @OA\Property(property="end_date", type="string", format="date-time", example="2023-04-05T00:00:00.000000Z"),
+     *              @OA\Property(property="created_at", type="string", format="date-time", example="2023-03-18T09:25:53.000000Z"),
+     *              @OA\Property(property="updated_at", type="string", format="date-time", example="2023-03-18T09:25:53.000000Z")
      *         )
      *     )
      * )
      */
-    public function get($id){
-        $bookings = $this->bookings->getbookings($id);
-        if($bookings){
-            return response()->json($bookings);
-        }
-        return response()->json(["msg"=>"bookings item not found"],404);
+    public function update(Request $request, $id)
+    {
+        // Update a car booking and return the updated booking object
     }
 
     /**
-     * Get List bookings
-     * @OA\Get (
-     *     path="/bookings-rental/api/v1/bookings/gets",
+     * Get a specific car booking
+     * @OA\Get(
+     *     path="/car-rental/api/v1/bookings/{id}",
      *     tags={"bookings"},
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="success",
+     *         @OA\JsonContent(
+     *              @OA\Property(property="booking_id", type="integer", example=1),
+     *              @OA\Property(property="car_id", type="integer", example=1),
+     *              @OA\Property(property="user_id", type="integer", example=1),
+     *              @OA\Property(property="start_date", type="string", format="date-time", example="2023-04-01T00:00:00.000000Z"),
+     *              @OA\Property(property="end_date", type="string", format="date-time", example="2023-04-05T00:00:00.000000Z"),
+     *              @OA\Property(property="created_at", type="string", format="date-time", example="2023-03-18T09:25:53.000000Z"),
+     *              @OA\Property(property="updated_at", type="string", format="date-time", example="2023-03-18T09:25:53.000000Z")
+     *         )
+     *     )
+     * )
+     */
+    public function get($id)
+    {
+        // Get a specific car booking by ID and return the booking object
+    }
+
+    /**
+     * Get all bookings for a specific user
+     * @OA\Get(
+     *     path="/car-rental/api/v1/users/{user_id}/bookings",
+     *     tags={"bookings"},
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="user_id",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="success",
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 type="array",
-     *                 property="rows",
+     *                 property="bookings",
      *                 @OA\Items(
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="_id",
-     *                         type="number",
-     *                         example="1"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="title",
-     *                         type="string",
-     *                         example="example title"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="content",
-     *                         type="string",
-     *                         example="example content"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="updated_at",
-     *                         type="string",
-     *                         example="2021-12-11T09:25:53.000000Z"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="created_at",
-     *                         type="string",
-     *                         example="2021-12-11T09:25:53.000000Z"
-     *                     )
-     *                 )
+     *                      @OA\Property(property="booking_id", type="integer", example=1),
+     *                      @OA\Property(property="user_id", type="integer", example=1),
+     *                      @OA\Property(property="car_id", type="integer", example=1),
+     *                      @OA\Property(property="start_date", type="string", example="2023-01-01"),
+     *                      @OA\Property(property="end_date", type="string", example="2023-01-07"),
+     *                      @OA\Property(property="created_at", type="string", example="2023-01-01T00:00:00.000000Z"),
+     *                      @OA\Property(property="updated_at", type="string", example="2023-01-01T00:00:00.000000Z"),)
      *             )
      *         )
      *     )
      * )
      */
-    public function gets(){
-        $bookingss = $this->bookings->getsbookings();
-        return response()->json(["rows"=>$bookingss]);
+    public function getUserBookings($user_id)
+    {
+        // Get all bookings for a specific user and return the bookings array
     }
 
     /**
-     * Delete bookings
-     * @OA\Delete (
-     *     path="/bookings-rental/api/v1/bookings/delete/{id}",
+     * Delete a car booking
+     * @OA\Delete(
+     *     path="/car-rental/api/v1/bookings/{id}",
      *     tags={"bookings"},
      *     @OA\Parameter(
      *         in="path",
      *         name="id",
      *         required=true,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
-     *         response=200,
-     *         description="success",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="msg", type="string", example="delete bookings success")
-     *         )
+     *         response=204,
+     *         description="deleted"
      *     )
      * )
      */
-    public function delete($id){
-        try {
-            $bookings = $this->bookings->deletebookings($id);
-            return response()->json(["msg"=>"delete bookings success"]);
-        }catch (ModelNotFoundException $exception){
-            return response()->json(["msg"=>$exception->getMessage()],404);
-        }
+    public function delete($id)
+    {
+        // Delete a car booking by ID
     }
 }
