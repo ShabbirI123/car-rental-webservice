@@ -13,6 +13,22 @@
                 ],
                 "summary": "Create a car booking",
                 "operationId": "158316d3a1524549ebc160af1511203c",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "token": {
+                                    "type": "string",
+                                    "example": "10293182301230123"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -85,6 +101,22 @@
                                 }
                             }
                         }
+                    },
+                    "403": {
+                        "description": "Unauthorized: Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -103,6 +135,20 @@
                         "required": true,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "token": {
+                                    "type": "string",
+                                    "example": "10293182301230123"
+                                }
+                            },
+                            "type": "object"
                         }
                     }
                 ],
@@ -150,6 +196,22 @@
                                 }
                             }
                         }
+                    },
+                    "403": {
+                        "description": "Unauthorized: Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -166,6 +228,20 @@
                         "required": true,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "token": {
+                                    "type": "string",
+                                    "example": "10293182301230123"
+                                }
+                            },
+                            "type": "object"
                         }
                     }
                 ],
@@ -233,6 +309,22 @@
                                 }
                             }
                         }
+                    },
+                    "403": {
+                        "description": "Unauthorized: Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -250,11 +342,41 @@
                         "schema": {
                             "type": "integer"
                         }
+                    },
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "token": {
+                                    "type": "string",
+                                    "example": "10293182301230123"
+                                }
+                            },
+                            "type": "object"
+                        }
                     }
                 ],
                 "responses": {
                     "204": {
                         "description": "deleted"
+                    },
+                    "403": {
+                        "description": "Unauthorized: Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -273,6 +395,20 @@
                         "required": true,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "token",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "token": {
+                                    "type": "string",
+                                    "example": "10293182301230123"
+                                }
+                            },
+                            "type": "object"
                         }
                     }
                 ],
@@ -324,6 +460,22 @@
                                 }
                             }
                         }
+                    },
+                    "403": {
+                        "description": "Unauthorized: Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -352,21 +504,34 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "id": {
+                                        "vehicle-id": {
                                             "type": "number",
-                                            "example": 1
+                                            "example": "1"
                                         },
-                                        "title": {
+                                        "vehicle-name": {
                                             "type": "string",
-                                            "example": "title"
+                                            "example": "Toyota Hybrid"
                                         },
-                                        "content": {
+                                        "transmission": {
                                             "type": "string",
-                                            "example": "content"
+                                            "example": "automatic"
                                         },
-                                        "updated_at": {
+                                        "daily-rate": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": "3.8"
+                                        },
+                                        "seats": {
+                                            "type": "number",
+                                            "example": "5"
+                                        },
+                                        "image": {
                                             "type": "string",
-                                            "example": "2021-12-11T09:25:53.000000Z"
+                                            "example": "http://base-url/path/to/image"
+                                        },
+                                        "available": {
+                                            "type": "boolean",
+                                            "example": "true"
                                         },
                                         "created_at": {
                                             "type": "string",
@@ -395,25 +560,38 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "rows": {
+                                        "data": {
                                             "type": "array",
                                             "items": {
                                                 "properties": {
-                                                    "_id": {
+                                                    "vehicle-id": {
                                                         "type": "number",
                                                         "example": "1"
                                                     },
-                                                    "title": {
+                                                    "vehicle-name": {
                                                         "type": "string",
-                                                        "example": "example title"
+                                                        "example": "Toyota Hybrid"
                                                     },
-                                                    "content": {
+                                                    "transmission": {
                                                         "type": "string",
-                                                        "example": "example content"
+                                                        "example": "automatic"
                                                     },
-                                                    "updated_at": {
+                                                    "daily-rate": {
+                                                        "type": "number",
+                                                        "format": "float",
+                                                        "example": "3.8"
+                                                    },
+                                                    "seats": {
+                                                        "type": "number",
+                                                        "example": "5"
+                                                    },
+                                                    "image": {
                                                         "type": "string",
-                                                        "example": "2021-12-11T09:25:53.000000Z"
+                                                        "example": "http://base-url/path/to/image"
+                                                    },
+                                                    "available": {
+                                                        "type": "boolean",
+                                                        "example": "true"
                                                     },
                                                     "created_at": {
                                                         "type": "string",
@@ -446,7 +624,7 @@
                                 "properties": {
                                     "": {
                                         "properties": {
-                                            "email": {
+                                            "username": {
                                                 "type": "string"
                                             },
                                             "password": {
@@ -458,7 +636,7 @@
                                 },
                                 "type": "object",
                                 "example": {
-                                    "email": "johndoe@example.com",
+                                    "username": "johndoe123",
                                     "password": "password123"
                                 }
                             }
@@ -484,9 +662,9 @@
                                             "type": "string",
                                             "example": "Doe"
                                         },
-                                        "email": {
+                                        "username": {
                                             "type": "string",
-                                            "example": "johndoe@example.com"
+                                            "example": "johndoe123"
                                         },
                                         "token": {
                                             "type": "string",
@@ -547,25 +725,25 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "rows": {
+                                        "data": {
                                             "type": "array",
                                             "items": {
                                                 "properties": {
-                                                    "_id": {
+                                                    "id": {
                                                         "type": "number",
                                                         "example": "1"
                                                     },
-                                                    "title": {
+                                                    "firstname": {
                                                         "type": "string",
-                                                        "example": "example title"
+                                                        "example": "John"
                                                     },
-                                                    "content": {
+                                                    "lastname": {
                                                         "type": "string",
-                                                        "example": "example content"
+                                                        "example": "Doe"
                                                     },
-                                                    "updated_at": {
+                                                    "username": {
                                                         "type": "string",
-                                                        "example": "2021-12-11T09:25:53.000000Z"
+                                                        "example": "johndoe123"
                                                     },
                                                     "created_at": {
                                                         "type": "string",
@@ -602,7 +780,7 @@
                                             "lastname": {
                                                 "type": "string"
                                             },
-                                            "email": {
+                                            "username": {
                                                 "type": "string"
                                             },
                                             "password": {
@@ -616,7 +794,7 @@
                                 "example": {
                                     "firstname": "John",
                                     "lastname": "Doe",
-                                    "email": "johndoe@example.com",
+                                    "email": "johndoe123",
                                     "password": "password123"
                                 }
                             }
@@ -666,6 +844,16 @@
                 ],
                 "summary": "Get user data",
                 "operationId": "db3294aa3278bf5d7c98c22269363fcc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -673,33 +861,25 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "rows": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "_id": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "title": {
-                                                        "type": "string",
-                                                        "example": "example title"
-                                                    },
-                                                    "content": {
-                                                        "type": "string",
-                                                        "example": "example content"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "example": "2021-12-11T09:25:53.000000Z"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "example": "2021-12-11T09:25:53.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
+                                        "id": {
+                                            "type": "number",
+                                            "example": "1"
+                                        },
+                                        "firstname": {
+                                            "type": "string",
+                                            "example": "John"
+                                        },
+                                        "lastname": {
+                                            "type": "string",
+                                            "example": "Doe"
+                                        },
+                                        "username": {
+                                            "type": "string",
+                                            "example": "johndoe123"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2021-12-11T09:25:53.000000Z"
                                         }
                                     },
                                     "type": "object"
@@ -739,6 +919,40 @@
                         }
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "": {
+                                        "properties": {
+                                            "firstname": {
+                                                "type": "string"
+                                            },
+                                            "lastname": {
+                                                "type": "string"
+                                            },
+                                            "username": {
+                                                "type": "string"
+                                            },
+                                            "password": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "firstname": "JohnNew",
+                                    "lastname": "DoeNew",
+                                    "email": "johndoe123",
+                                    "password": "password123"
+                                }
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "success",
@@ -750,21 +964,33 @@
                                             "type": "number",
                                             "example": 1
                                         },
-                                        "title": {
+                                        "firstname": {
                                             "type": "string",
-                                            "example": "title"
+                                            "example": "JohnNew"
                                         },
-                                        "content": {
+                                        "lastname": {
                                             "type": "string",
-                                            "example": "content"
+                                            "example": "DoeNew"
                                         },
-                                        "updated_at": {
+                                        "username": {
                                             "type": "string",
-                                            "example": "2021-12-11T09:25:53.000000Z"
-                                        },
-                                        "created_at": {
+                                            "example": "johndoe123"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized: Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
                                             "type": "string",
-                                            "example": "2021-12-11T09:25:53.000000Z"
+                                            "example": "Invalid credentials"
                                         }
                                     },
                                     "type": "object"
@@ -788,7 +1014,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "number"
                         }
                     },
                     {
@@ -816,6 +1042,22 @@
                                         "msg": {
                                             "type": "string",
                                             "example": "delete users success"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized: Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Invalid credentials"
                                         }
                                     },
                                     "type": "object"

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\Console\Helper\Table;
 
 class CarRentalUserController extends Controller
 {
@@ -25,7 +27,7 @@ class CarRentalUserController extends Controller
      *                 @OA\Property(
      *                      type="object",
      *                      @OA\Property(
-     *                          property="email",
+     *                          property="username",
      *                          type="string"
      *                      ),
      *                      @OA\Property(
@@ -34,7 +36,7 @@ class CarRentalUserController extends Controller
      *                      )
      *                 ),
      *                 example={
-     *                     "email":"johndoe@example.com",
+     *                     "username":"johndoe123",
      *                     "password":"password123"
      *                }
      *             )
@@ -47,7 +49,7 @@ class CarRentalUserController extends Controller
      *              @OA\Property(property="id", type="number", example=1),
      *              @OA\Property(property="firstname", type="string", example="John"),
      *              @OA\Property(property="lastname", type="string", example="Doe"),
-     *              @OA\Property(property="email", type="string", example="johndoe@example.com"),
+     *              @OA\Property(property="username", type="string", example="johndoe123"),
      *              @OA\Property(property="token", type="string", example="10293182301230123"),
      *          )
      *      ),
@@ -97,7 +99,7 @@ class CarRentalUserController extends Controller
      *                          type="string"
      *                      ),
      *                      @OA\Property(
-     *                          property="email",
+     *                          property="username",
      *                          type="string"
      *                      ),
      *                      @OA\Property(
@@ -108,7 +110,7 @@ class CarRentalUserController extends Controller
      *                 example={
      *                     "firstname":"John",
      *                     "lastname":"Doe",
-     *                     "email":"johndoe@example.com",
+     *                     "email":"johndoe123",
      *                     "password":"password123"
      *                }
      *             )
@@ -133,8 +135,11 @@ class CarRentalUserController extends Controller
     public function createUser(Request $request)
     {
         try {
-            $users = $this->users->updateusers($id, $request->all());
-            return response()->json($users);
+            var_dump($request);
+            exit();
+            if (DB::table('customers')->where('username', 1)->doesntExist()) {
+                return response()->json($users);
+            }
         } catch (ModelNotFoundException $exception) {
             return response()->json(["msg" => $exception->getMessage()], 404);
         }
@@ -164,17 +169,55 @@ class CarRentalUserController extends Controller
      *              )
      *          )
      *     ),
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                      type="object",
+     *                      @OA\Property(
+     *                          property="firstname",
+     *                          type="string"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="lastname",
+     *                          type="string"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="username",
+     *                          type="string"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="password",
+     *                          type="string"
+     *                      )
+     *                 ),
+     *                 example={
+     *                     "firstname":"JohnNew",
+     *                     "lastname":"DoeNew",
+     *                     "email":"johndoe123",
+     *                     "password":"password123"
+     *                }
+     *             )
+     *         )
+     *      ),
      *     @OA\Response(
      *         response=200,
      *         description="success",
      *         @OA\JsonContent(
      *              @OA\Property(property="id", type="number", example=1),
-     *              @OA\Property(property="title", type="string", example="title"),
-     *              @OA\Property(property="content", type="string", example="content"),
-     *              @OA\Property(property="updated_at", type="string", example="2021-12-11T09:25:53.000000Z"),
-     *              @OA\Property(property="created_at", type="string", example="2021-12-11T09:25:53.000000Z")
+     *              @OA\Property(property="firstname", type="string", example="JohnNew"),
+     *              @OA\Property(property="lastname", type="string", example="DoeNew"),
+     *              @OA\Property(property="username", type="string", example="johndoe123"),
      *         )
-     *     )
+     *     ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Unauthorized: Invalid credentials",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="msg", type="string", example="Invalid credentials"),
+     *          )
+     *      )
      * )
      */
     public function modifyUserData($id, Request $request)
@@ -191,42 +234,41 @@ class CarRentalUserController extends Controller
      * @OA\Get  (
      *     path="/car-rental/api/v1/users/{id}",
      *     tags={"users"},
+     *     @OA\Parameter(
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="number")
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="success",
      *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 type="array",
-     *                 property="rows",
-     *                 @OA\Items(
-     *                     type="object",
      *                     @OA\Property(
-     *                         property="_id",
+     *                         property="id",
      *                         type="number",
      *                         example="1"
      *                     ),
      *                     @OA\Property(
-     *                         property="title",
+     *                         property="firstname",
      *                         type="string",
-     *                         example="example title"
+     *                         example="John"
      *                     ),
      *                     @OA\Property(
-     *                         property="content",
+     *                         property="lastname",
      *                         type="string",
-     *                         example="example content"
+     *                         example="Doe"
      *                     ),
      *                     @OA\Property(
-     *                         property="updated_at",
+     *                         property="username",
      *                         type="string",
-     *                         example="2021-12-11T09:25:53.000000Z"
+     *                         example="johndoe123"
      *                     ),
      *                     @OA\Property(
      *                         property="created_at",
      *                         type="string",
      *                         example="2021-12-11T09:25:53.000000Z"
      *                     )
-     *                 )
-     *             )
      *         )
      *     )
      * )
@@ -248,28 +290,28 @@ class CarRentalUserController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 type="array",
-     *                 property="rows",
+     *                 property="data",
      *                 @OA\Items(
      *                     type="object",
      *                     @OA\Property(
-     *                         property="_id",
+     *                         property="id",
      *                         type="number",
      *                         example="1"
      *                     ),
      *                     @OA\Property(
-     *                         property="title",
+     *                         property="firstname",
      *                         type="string",
-     *                         example="example title"
+     *                         example="John"
      *                     ),
      *                     @OA\Property(
-     *                         property="content",
+     *                         property="lastname",
      *                         type="string",
-     *                         example="example content"
+     *                         example="Doe"
      *                     ),
      *                     @OA\Property(
-     *                         property="updated_at",
+     *                         property="username",
      *                         type="string",
-     *                         example="2021-12-11T09:25:53.000000Z"
+     *                         example="johndoe123"
      *                     ),
      *                     @OA\Property(
      *                         property="created_at",
@@ -296,7 +338,7 @@ class CarRentalUserController extends Controller
      *         in="path",
      *         name="id",
      *         required=true,
-     *         @OA\Schema(type="string")
+     *         @OA\Schema(type="number")
      *     ),
      *      @OA\Parameter(
      *          in="header",
@@ -317,7 +359,14 @@ class CarRentalUserController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="msg", type="string", example="delete users success")
      *         )
-     *     )
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Unauthorized: Invalid credentials",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="msg", type="string", example="Invalid credentials"),
+     *          )
+     *      )
      * )
      */
     public function deleteUser($id)
