@@ -31,6 +31,19 @@ class CarRentalBookingController extends Controller
      * @OA\Post(
      *     path="/car-rental/api/v1/bookings",
      *     tags={"bookings"},
+     *     @OA\Parameter(
+     *          in="header",
+     *          name="token",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="token",
+     *                  type="string",
+     *                  example="10293182301230123"
+     *              )
+     *          )
+     *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -52,7 +65,14 @@ class CarRentalBookingController extends Controller
      *              @OA\Property(property="created_at", type="string", format="date-time", example="2023-03-18T09:25:53.000000Z"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2023-03-18T09:25:53.000000Z")
      *         )
-     *     )
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Unauthorized: Invalid credentials",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="msg", type="string", example="Invalid credentials"),
+     *          )
+     *      )
      * )
      */
     public function create(Request $request)
@@ -70,6 +90,19 @@ class CarRentalBookingController extends Controller
      *         name="id",
      *         required=true,
      *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *          in="header",
+     *          name="token",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="token",
+     *                  type="string",
+     *                  example="10293182301230123"
+     *              )
+     *          )
      *     ),
      *     @OA\RequestBody(
      *         required=true,
@@ -90,7 +123,14 @@ class CarRentalBookingController extends Controller
      *              @OA\Property(property="created_at", type="string", format="date-time", example="2023-03-18T09:25:53.000000Z"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2023-03-18T09:25:53.000000Z")
      *         )
-     *     )
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Unauthorized: Invalid credentials",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="msg", type="string", example="Invalid credentials"),
+     *          )
+     *      )
      * )
      */
     public function update(Request $request, $id)
@@ -109,6 +149,19 @@ class CarRentalBookingController extends Controller
      *         required=true,
      *         @OA\Schema(type="integer")
      *     ),
+     *     @OA\Parameter(
+     *          in="header",
+     *          name="token",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="token",
+     *                  type="string",
+     *                  example="10293182301230123"
+     *              )
+     *          )
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="success",
@@ -121,7 +174,14 @@ class CarRentalBookingController extends Controller
      *              @OA\Property(property="created_at", type="string", format="date-time", example="2023-03-18T09:25:53.000000Z"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2023-03-18T09:25:53.000000Z")
      *         )
-     *     )
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Unauthorized: Invalid credentials",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="msg", type="string", example="Invalid credentials"),
+     *          )
+     *      )
      * )
      */
     public function get($id)
@@ -140,6 +200,19 @@ class CarRentalBookingController extends Controller
      *         required=true,
      *         @OA\Schema(type="integer")
      *     ),
+     *     @OA\Parameter(
+     *          in="header",
+     *          name="token",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="token",
+     *                  type="string",
+     *                  example="10293182301230123"
+     *              )
+     *          )
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="success",
@@ -157,7 +230,14 @@ class CarRentalBookingController extends Controller
      *                      @OA\Property(property="updated_at", type="string", example="2023-01-01T00:00:00.000000Z"),)
      *             )
      *         )
-     *     )
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Unauthorized: Invalid credentials",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="msg", type="string", example="Invalid credentials"),
+     *          )
+     *      )
      * )
      */
     public function getUserBookings($user_id)
@@ -176,10 +256,30 @@ class CarRentalBookingController extends Controller
      *         required=true,
      *         @OA\Schema(type="integer")
      *     ),
+     *     @OA\Parameter(
+     *          in="header",
+     *          name="token",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="token",
+     *                  type="string",
+     *                  example="10293182301230123"
+     *              )
+     *          )
+     *     ),
      *     @OA\Response(
      *         response=204,
      *         description="deleted"
-     *     )
+     *     ),
+     *     @OA\Response(
+     *          response=403,
+     *          description="Unauthorized: Invalid credentials",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="msg", type="string", example="Invalid credentials"),
+     *          )
+     *      )
      * )
      */
     public function delete($id)

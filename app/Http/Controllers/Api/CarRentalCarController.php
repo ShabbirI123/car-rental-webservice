@@ -28,11 +28,46 @@ class CarRentalCarController extends Controller
      *         response=200,
      *         description="success",
      *         @OA\JsonContent(
-     *              @OA\Property(property="id", type="number", example=1),
-     *              @OA\Property(property="title", type="string", example="title"),
-     *              @OA\Property(property="content", type="string", example="content"),
-     *              @OA\Property(property="updated_at", type="string", example="2021-12-11T09:25:53.000000Z"),
-     *              @OA\Property(property="created_at", type="string", example="2021-12-11T09:25:53.000000Z")
+     *                     @OA\Property(
+     *                         property="vehicle-id",
+     *                         type="number",
+     *                         example="1"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="vehicle-name",
+     *                         type="string",
+     *                         example="Toyota Hybrid"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="transmission",
+     *                         type="string",
+     *                         example="automatic"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="daily-rate",
+     *                         type="float",
+     *                         example="3.8"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="seats",
+     *                         type="number",
+     *                         example="5"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="image",
+     *                         type="string",
+     *                         example="http://base-url/path/to/image"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="available",
+     *                         type="boolean",
+     *                         example="true"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="created_at",
+     *                         type="string",
+     *                         example="2021-12-11T09:25:53.000000Z"
+     *                     )
      *         )
      *     )
      * )
@@ -56,28 +91,43 @@ class CarRentalCarController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 type="array",
-     *                 property="rows",
+     *                 property="data",
      *                 @OA\Items(
      *                     type="object",
      *                     @OA\Property(
-     *                         property="_id",
+     *                         property="vehicle-id",
      *                         type="number",
      *                         example="1"
      *                     ),
      *                     @OA\Property(
-     *                         property="title",
+     *                         property="vehicle-name",
      *                         type="string",
-     *                         example="example title"
+     *                         example="Toyota Hybrid"
      *                     ),
      *                     @OA\Property(
-     *                         property="content",
+     *                         property="transmission",
      *                         type="string",
-     *                         example="example content"
+     *                         example="automatic"
      *                     ),
      *                     @OA\Property(
-     *                         property="updated_at",
+     *                         property="daily-rate",
+     *                         type="float",
+     *                         example="3.8"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="seats",
+     *                         type="number",
+     *                         example="5"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="image",
      *                         type="string",
-     *                         example="2021-12-11T09:25:53.000000Z"
+     *                         example="http://base-url/path/to/image"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="available",
+     *                         type="boolean",
+     *                         example="true"
      *                     ),
      *                     @OA\Property(
      *                         property="created_at",
