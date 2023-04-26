@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use RicorocksDigitalAgency\Soap\Facades\Soap;
 
 class CarRentalBookingController extends Controller
 {
@@ -75,9 +76,29 @@ class CarRentalBookingController extends Controller
      *      )
      * )
      */
-    public function create(Request $request)
+    public function createBooking(Request $request)
     {
-        // Create a car booking and return the created booking object
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer|exists:customers,customer_id',
+            'car_id' => 'required|integer|exists:vehicles,vehicle_id',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+        $booking = new Booking([
+            'car_id' => $request->car_id,
+            'user_id' => $request->user_id,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+        ]);
+
+        $booking->save();
+
+        return response()->json($booking, 201);
     }
 
     /**
@@ -133,9 +154,25 @@ class CarRentalBookingController extends Controller
      *      )
      * )
      */
-    public function update(Request $request, $id)
+    public function updateBooking(Request $request, $id)
     {
-        // Update a car booking and return the updated booking object
+        $validator = Validator::make($request->all(), [
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+        $booking = Booking::findOrFail($id);
+
+        $booking->update([
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+        ]);
+
+        return response()->json($booking, 200);
     }
 
     /**
@@ -184,9 +221,11 @@ class CarRentalBookingController extends Controller
      *      )
      * )
      */
-    public function get($id)
+    public function getBooking($id)
     {
-        // Get a specific car booking by ID and return the booking object
+        $booking = Booking::findOrFail($id);
+
+        return response()->json($booking, 200);
     }
 
     /**
@@ -242,7 +281,9 @@ class CarRentalBookingController extends Controller
      */
     public function getUserBookings($user_id)
     {
-        // Get all bookings for a specific user and return the bookings array
+        $bookings = Booking::where('user_id', $user_id)->get();
+
+        return response()->json(['bookings' => $bookings], 200);
     }
 
     /**
@@ -282,8 +323,12 @@ class CarRentalBookingController extends Controller
      *      )
      * )
      */
-    public function delete($id)
+    public function deleteBooking($id)
     {
-        // Delete a car booking by ID
+        $booking = Booking::findOrFail($id);
+
+        $booking->delete();
+
+        return response()->json(null, 204);
     }
 }

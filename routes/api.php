@@ -2,8 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CarRentalController;
-
+use App\Http\Controllers\Api\CarRentalUserController;
+use App\Http\Controllers\Api\CarRentalCarController;
+use App\Http\Controllers\Api\CarRentalBookingController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,16 +15,25 @@ use App\Http\Controllers\CarRentalController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::prefix('car-rental/api/v1')->group(function () {
+    // Users
+    Route::post('/users', [CarRentalUserController::class, 'createUser']);
+    Route::post('/users/login', [CarRentalUserController::class, 'authenticateUser']);
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::put('/users/{id}', [CarRentalUserController::class, 'modifyUserData']);
+        Route::get('/users/{id}', [CarRentalUserController::class, 'getUserData']);
+        Route::get('/users', [CarRentalUserController::class, 'getAllUsers']);
+        Route::delete('/users/deletion/{id}', [CarRentalUserController::class, 'deleteUser']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+        // Cars
+        Route::get('/cars/{id}', [CarRentalCarController::class, 'getCarDetails']);
+        Route::get('/cars', [CarRentalCarController::class, 'getAllCars']);
+
+        // Bookings
+        Route::post('/bookings', [CarRentalBookingController::class, 'createBooking']);
+        Route::put('/bookings/{id}', [CarRentalBookingController::class, 'updateBooking']);
+        Route::get('/bookings/{id}', [CarRentalBookingController::class, 'getBooking']);
+        Route::get('/users/{user_id}/bookings', [CarRentalBookingController::class, 'getUserBookings']);
+        Route::delete('/bookings/{id}', [CarRentalBookingController::class, 'deleteBooking']);
+    });
 });
-Route::post("/user/store",[CarRentalController::class,"store"]);
-
-/*Route::group(["prefix"=>"CarRental"],function(){
-    Route::get("/get/{id}",[CarRentalController::class,"get"]);
-    Route::get("/gets",[CarRentalController::class,"gets"]);
-    Route::post("/store",[CarRentalController::class,"store"]);
-    Route::put("/update/{id}",[CarRentalController::class,"update"]);
-    Route::delete("/delete/{id}",[CarRentalController::class,"delete"]);
-});*/

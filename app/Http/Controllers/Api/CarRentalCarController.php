@@ -4,15 +4,32 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Vehicles;
+use App\Models\VehicleTypes;
+use Illuminate\Http\JsonResponse;
 
+/**
+ * @OA\Parameter(
+ *     parameter="AuthorizationHeader",
+ *     in="header",
+ *     name="Authorization",
+ *     required=true,
+ *     @OA\Schema(
+ *         type="string"
+ *     ),
+ *     description="Bearer <token>"
+ * )
+ *
+ * @OA\SecurityScheme(
+ *     securityScheme="sanctum",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT",
+ *     description="Laravel Sanctum authentication",
+ * )
+ */
 class CarRentalCarController extends Controller
 {
-    protected $cars;
-
-    /*public function __construct(cars $cars){
-        $this->cars = $cars;
-    }*/
-
     /**
      * Get car details
      * @OA\Get (
@@ -23,6 +40,16 @@ class CarRentalCarController extends Controller
      *         name="id",
      *         required=true,
      *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *          parameter="AuthorizationHeader",
+     *          in="header",
+     *          name="Authorization",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *          description="Bearer <token>"
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -69,15 +96,34 @@ class CarRentalCarController extends Controller
      *                         example="2021-12-11T09:25:53.000000Z"
      *                     )
      *         )
-     *     )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Car not found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="msg", type="string", example="Car not found"),
+     *          )
+     *      )
      * )
      */
-    public function get($id){
-        $cars = $this->cars->getcars($id);
-        if($cars){
-            return response()->json($cars);
+    public function getCarDetails($id)
+    {
+        $vehicle = Vehicles::with('vehicleType')->findOrFail($id);
+
+        if ($vehicle) {
+            return response()->json([
+                'vehicle-id' => $vehicle->vehicle_id,
+                'vehicle-name' => $vehicle->vehicleType->name,
+                'transmission' => $vehicle->vehicleType->transmission,
+                'daily-rate' => $vehicle->vehicleType->daily_rate,
+                'seats' => $vehicle->vehicleType->seats,
+                'image' => $vehicle->vehicleType->image,
+                'available' => $vehicle->available,
+                'created_at' => $vehicle->created_at,
+            ]);
+        } else {
+            return response()->json(['msg' => 'Car not found'], 404);
         }
-        return response()->json(["msg"=>"cars item not found"],404);
     }
 
     /**
@@ -85,6 +131,16 @@ class CarRentalCarController extends Controller
      * @OA\Get (
      *     path="/car-rental/api/v1/cars",
      *     tags={"cars"},
+     *     @OA\Parameter(
+     *          parameter="AuthorizationHeader",
+     *          in="header",
+     *          name="Authorization",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *          description="Bearer <token>"
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="success",
@@ -140,9 +196,23 @@ class CarRentalCarController extends Controller
      *     )
      * )
      */
-    public function gets(){
-        $carss = $this->cars->getscars();
-        return response()->json(["rows"=>$carss]);
-    }
+    public function getAllCars()
+    {
+        $vehicles = Vehicles::with('vehicleType')->get();
 
+        $data = $vehicles->map(function ($vehicle) {
+            return [
+                'vehicle-id' => $vehicle->vehicle_id,
+                'vehicle-name' => $vehicle->vehicleType->name,
+                'transmission' => $vehicle->vehicleType->transmission,
+                'daily-rate' => $vehicle->vehicleType->daily_rate,
+                'seats' => $vehicle->vehicleType->seats,
+                'image' => $vehicle->vehicleType->image,
+                'available' => $vehicle->available,
+                'created_at' => $vehicle->created_at,
+            ];
+        });
+
+        return response()->json(['data' => $data]);
+    }
 }

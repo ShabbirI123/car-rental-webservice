@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\Console\Helper\Table;
+use App\Models\Customers;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class CarRentalUserController extends Controller
 {
@@ -71,12 +73,30 @@ class CarRentalUserController extends Controller
      */
     public function authenticateUser(Request $request)
     {
-        //$users = $this->users->createusers($request->all());
-        $data = [
-            'status' => 'success',
-            'message' => 'Hello World!'
-        ];
-        return response()->json($data);
+        $validatedData = $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        $user = Customers::where('username', $validatedData['username'])->first();
+
+        if ($user) {
+            if (Hash::check($validatedData['password'], $user->password)) {
+                $token = $user->createToken('authToken')->plainTextToken;
+
+                return response()->json([
+                    'id' => $user->customer_id,
+                    'firstname' => $user->first_name,
+                    'lastname' => $user->last_name,
+                    'username' => $user->username,
+                    'token' => $token,
+                ], 200);
+            } else {
+                return response()->json(['msg' => 'Invalid credentials'], 403);
+            }
+        } else {
+            return response()->json(['msg' => 'User not found'], 404);
+        }
     }
 
     /**
@@ -134,14 +154,28 @@ class CarRentalUserController extends Controller
      */
     public function createUser(Request $request)
     {
+        $validatedData = $request->validate([
+            'firstname' => 'required|string',
+            'lastname' => 'required|string',
+            'username' => 'required|string|unique:customers',
+            'password' => 'required|string',
+        ]);
+
         try {
-            var_dump($request);
-            exit();
-            if (DB::table('customers')->where('username', 1)->doesntExist()) {
-                return response()->json($users);
+            if (DB::table('customers')->where('username', $validatedData['username'])->doesntExist()) {
+                $user = new Customers;
+                $user->first_name = $validatedData['firstname'];
+                $user->last_name = $validatedData['lastname'];
+                $user->username = $validatedData['username'];
+                $user->password = bcrypt($validatedData['password']);
+                $user->save();
+
+                return response()->json(['msg' => 'Registration successful'], 201);
+            } else {
+                return response()->json(['msg' => 'User already exists'], 409);
             }
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(["msg" => $exception->getMessage()], 404);
+        } catch (Exception $exception) {
+            return response()->json(['msg' => $exception->getMessage()], 500);
         }
     }
 
@@ -157,17 +191,14 @@ class CarRentalUserController extends Controller
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Parameter(
+     *          parameter="AuthorizationHeader",
      *          in="header",
-     *          name="token",
+     *          name="Authorization",
      *          required=true,
      *          @OA\Schema(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="token",
-     *                  type="string",
-     *                  example="10293182301230123"
-     *              )
-     *          )
+     *              type="string"
+     *          ),
+     *          description="Bearer <token>"
      *     ),
      *     @OA\RequestBody(
      *         @OA\MediaType(
@@ -222,11 +253,36 @@ class CarRentalUserController extends Controller
      */
     public function modifyUserData($id, Request $request)
     {
-        $users = $this->users->getusers($id);
-        if ($users) {
-            return response()->json($users);
+        if (!Auth::user() || Auth::user()->customer_id != $id) {
+            return response()->json(['msg' => 'Invalid credentials'], 403);
         }
-        return response()->json(["msg" => "users item not found"], 404);
+
+        $validatedData = $request->validate([
+            'firstname' => 'sometimes|required|string',
+            'lastname' => 'sometimes|required|string',
+            'username' => [
+                'sometimes',
+                'required',
+                'string',
+                Rule::unique('customers')->ignore(Auth::user()->customer_id, 'customer_id'),
+            ],
+            'password' => 'sometimes|required|string',
+        ]);
+
+        $user = Auth::user();
+        $user->update([
+            'first_name' => $validatedData['firstname'] ?? $user->first_name,
+            'last_name' => $validatedData['lastname'] ?? $user->last_name,
+            'username' => $validatedData['username'] ?? $user->username,
+            'password' => isset($validatedData['password']) ? bcrypt($validatedData['password']) : $user->password,
+        ]);
+
+        return response()->json([
+            'id' => $user->customer_id,
+            'firstname' => $user->first_name,
+            'lastname' => $user->last_name,
+            'username' => $user->username,
+        ], 200);
     }
 
     /**
@@ -239,6 +295,16 @@ class CarRentalUserController extends Controller
      *         name="id",
      *         required=true,
      *         @OA\Schema(type="number")
+     *     ),
+     *     @OA\Parameter(
+     *          parameter="AuthorizationHeader",
+     *          in="header",
+     *          name="Authorization",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *          description="Bearer <token>"
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -275,8 +341,19 @@ class CarRentalUserController extends Controller
      */
     public function getUserData($id)
     {
-        $userss = $this->users->getsusers();
-        return response()->json(["rows" => $userss]);
+        $user = Customers::find($id);
+
+        if (!$user) {
+            return response()->json(['msg' => 'User not found'], 404);
+        }
+
+        return response()->json([
+            'id' => $user->customer_id,
+            'firstname' => $user->first_name,
+            'lastname' => $user->last_name,
+            'username' => $user->username,
+            'created_at' => $user->created_at,
+        ]);
     }
 
     /**
@@ -284,6 +361,16 @@ class CarRentalUserController extends Controller
      * @OA\Get  (
      *     path="/car-rental/api/v1/users",
      *     tags={"users"},
+     *     @OA\Parameter(
+     *          parameter="AuthorizationHeader",
+     *          in="header",
+     *          name="Authorization",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string"
+     *          ),
+     *          description="Bearer <token>"
+     *     ),
      *      @OA\Response(
      *         response=200,
      *         description="success",
@@ -326,7 +413,19 @@ class CarRentalUserController extends Controller
      */
     public function getAllUsers()
     {
+        $users = Customers::all();
 
+        $userList = $users->map(function ($user) {
+            return [
+                'id' => $user->customer_id,
+                'firstname' => $user->first_name,
+                'lastname' => $user->last_name,
+                'username' => $user->username,
+                'created_at' => $user->created_at,
+            ];
+        });
+
+        return response()->json(['data' => $userList]);
     }
 
     /**
@@ -340,18 +439,15 @@ class CarRentalUserController extends Controller
      *         required=true,
      *         @OA\Schema(type="number")
      *     ),
-     *      @OA\Parameter(
+     *     @OA\Parameter(
+     *          parameter="AuthorizationHeader",
      *          in="header",
-     *          name="token",
+     *          name="Authorization",
      *          required=true,
      *          @OA\Schema(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="token",
-     *                  type="string",
-     *                  example="10293182301230123"
-     *              )
-     *          )
+     *              type="string"
+     *          ),
+     *          description="Bearer <token>"
      *     ),
      *     @OA\Response(
      *         response=204,
@@ -372,8 +468,10 @@ class CarRentalUserController extends Controller
     public function deleteUser($id)
     {
         try {
-            $users = $this->users->deleteusers($id);
-            return response()->json(["msg" => "delete users success"]);
+            $user = Customers::findOrFail($id);
+            $user->delete();
+
+            return response()->json(["msg" => "delete users success"], 204);
         } catch (ModelNotFoundException $exception) {
             return response()->json(["msg" => $exception->getMessage()], 404);
         }

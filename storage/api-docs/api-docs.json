@@ -486,11 +486,21 @@
                     "cars"
                 ],
                 "summary": "Get car details",
-                "operationId": "05a3ea36b4eeca0429ca37c324d010b3",
+                "operationId": "d521feef0acba1c9e89afb4ea705310c",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "parameter": "AuthorizationHeader",
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer <token>",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -542,6 +552,22 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "description": "Car not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Car not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -552,7 +578,19 @@
                     "cars"
                 ],
                 "summary": "Get cars list",
-                "operationId": "5ce09fe636d624cb114991250e0bbbb2",
+                "operationId": "b2e6d36ec2df569ba7729591cd7858c7",
+                "parameters": [
+                    {
+                        "parameter": "AuthorizationHeader",
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer <token>",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -718,6 +756,18 @@
                 ],
                 "summary": "Get all users",
                 "operationId": "69e4959835b07b7c26dbb5842937e2f7",
+                "parameters": [
+                    {
+                        "parameter": "AuthorizationHeader",
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer <token>",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -852,6 +902,16 @@
                         "schema": {
                             "type": "number"
                         }
+                    },
+                    {
+                        "parameter": "AuthorizationHeader",
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Bearer <token>",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
@@ -905,17 +965,13 @@
                         }
                     },
                     {
-                        "name": "token",
+                        "parameter": "AuthorizationHeader",
+                        "name": "Authorization",
                         "in": "header",
+                        "description": "Bearer <token>",
                         "required": true,
                         "schema": {
-                            "properties": {
-                                "token": {
-                                    "type": "string",
-                                    "example": "10293182301230123"
-                                }
-                            },
-                            "type": "object"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1018,17 +1074,13 @@
                         }
                     },
                     {
-                        "name": "token",
+                        "parameter": "AuthorizationHeader",
+                        "name": "Authorization",
                         "in": "header",
+                        "description": "Bearer <token>",
                         "required": true,
                         "schema": {
-                            "properties": {
-                                "token": {
-                                    "type": "string",
-                                    "example": "10293182301230123"
-                                }
-                            },
-                            "type": "object"
+                            "type": "string"
                         }
                     }
                 ],
@@ -1066,6 +1118,27 @@
                         }
                     }
                 }
+            }
+        }
+    },
+    "components": {
+        "parameters": {
+            "AuthorizationHeader": {
+                "name": "Authorization",
+                "in": "header",
+                "description": "Bearer <token>",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "description": "Laravel Sanctum authentication",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
             }
         }
     }
