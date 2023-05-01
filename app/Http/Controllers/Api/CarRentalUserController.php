@@ -247,9 +247,9 @@ class CarRentalUserController extends Controller
      */
     public function modifyUserData($id, Request $request)
     {
-        if (!Auth::user() || Auth::user()->customer_id != $id) {
-            return response()->json(['msg' => 'Invalid credentials'], 403);
-        }
+        //if (Auth::user()->customer_id != $id) {
+        //return response()->json(['msg' => 'Invalid credentials'], 403);
+        //}
 
         $validatedData = $request->validate([
             'firstname' => 'sometimes|required|string',
@@ -444,7 +444,7 @@ class CarRentalUserController extends Controller
      *          description="Bearer <token>"
      *     ),
      *     @OA\Response(
-     *         response=204,
+     *         response=200,
      *         description="success",
      *         @OA\JsonContent(
      *             @OA\Property(property="msg", type="string", example="delete users success")
@@ -461,13 +461,9 @@ class CarRentalUserController extends Controller
      */
     public function deleteUser($id)
     {
-        try {
-            $user = Customers::findOrFail($id);
-            $user->delete();
+        $user = Customers::findOrFail($id);
+        $user->delete();
 
-            return response()->json(["msg" => "delete users success"], 204);
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(["msg" => $exception->getMessage()], 404);
-        }
+        return response()->json(["msg" => "delete users success"], 200);
     }
 }
