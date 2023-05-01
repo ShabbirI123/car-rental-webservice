@@ -21,11 +21,11 @@ class Vehicles extends Model
 
     public function vehicleType()
     {
-        return $this->belongsTo(VehicleType::class, 'vehicle_type_id', 'vehicle_type_id');
+        return $this->belongsTo(VehicleTypes::class, 'vehicle_type_id', 'vehicle_type_id');
     }
 
     public function rentals()
     {
-        return $this->hasMany(Rental::class, 'vehicle_id', 'vehicle_id');
+        return $this->hasMany(Rentals::class, 'vehicle_id', 'vehicle_id');
     }
 }

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Vehicles;
 use App\Models\VehicleTypes;
-use Illuminate\Http\JsonResponse;
 
 /**
  * @OA\Parameter(
@@ -118,7 +117,7 @@ class CarRentalCarController extends Controller
                 'daily-rate' => $vehicle->vehicleType->daily_rate,
                 'seats' => $vehicle->vehicleType->seats,
                 'image' => $vehicle->vehicleType->image,
-                'available' => $vehicle->available,
+                'available' => (bool) $vehicle->available,
                 'created_at' => $vehicle->created_at,
             ]);
         } else {
@@ -208,7 +207,7 @@ class CarRentalCarController extends Controller
                 'daily-rate' => $vehicle->vehicleType->daily_rate,
                 'seats' => $vehicle->vehicleType->seats,
                 'image' => $vehicle->vehicleType->image,
-                'available' => $vehicle->available,
+                'available' => (bool) $vehicle->available,
                 'created_at' => $vehicle->created_at,
             ];
         });

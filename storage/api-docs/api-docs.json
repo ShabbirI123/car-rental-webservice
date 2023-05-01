@@ -12,20 +12,16 @@
                     "bookings"
                 ],
                 "summary": "Create a car booking",
-                "operationId": "158316d3a1524549ebc160af1511203c",
+                "operationId": "57c2e55427c97398e3e70154abdd4d63",
                 "parameters": [
                     {
-                        "name": "token",
+                        "parameter": "AuthorizationHeader",
+                        "name": "Authorization",
                         "in": "header",
+                        "description": "Bearer <token>",
                         "required": true,
                         "schema": {
-                            "properties": {
-                                "token": {
-                                    "type": "string",
-                                    "example": "10293182301230123"
-                                }
-                            },
-                            "type": "object"
+                            "type": "string"
                         }
                     }
                 ],
@@ -42,6 +38,10 @@
                                     "car_id": {
                                         "type": "integer",
                                         "example": 2
+                                    },
+                                    "paid": {
+                                        "type": "string",
+                                        "example": "2023-04-01"
                                     },
                                     "start_date": {
                                         "type": "string",
@@ -127,7 +127,7 @@
                     "bookings"
                 ],
                 "summary": "Get a specific car booking",
-                "operationId": "d0cf74e3267add49121c4ea03ea760b3",
+                "operationId": "e349323e05fe2a87db663d9a512a0b4a",
                 "parameters": [
                     {
                         "name": "id",
@@ -138,17 +138,13 @@
                         }
                     },
                     {
-                        "name": "token",
+                        "parameter": "AuthorizationHeader",
+                        "name": "Authorization",
                         "in": "header",
+                        "description": "Bearer <token>",
                         "required": true,
                         "schema": {
-                            "properties": {
-                                "token": {
-                                    "type": "string",
-                                    "example": "10293182301230123"
-                                }
-                            },
-                            "type": "object"
+                            "type": "string"
                         }
                     }
                 ],
@@ -220,7 +216,7 @@
                     "bookings"
                 ],
                 "summary": "Update a car booking",
-                "operationId": "10b366f6bcbf3ec88aca732eb960f461",
+                "operationId": "18f0d0647da054f1df77b0758fa0e17c",
                 "parameters": [
                     {
                         "name": "id",
@@ -231,17 +227,13 @@
                         }
                     },
                     {
-                        "name": "token",
+                        "parameter": "AuthorizationHeader",
+                        "name": "Authorization",
                         "in": "header",
+                        "description": "Bearer <token>",
                         "required": true,
                         "schema": {
-                            "properties": {
-                                "token": {
-                                    "type": "string",
-                                    "example": "10293182301230123"
-                                }
-                            },
-                            "type": "object"
+                            "type": "string"
                         }
                     }
                 ],
@@ -333,7 +325,7 @@
                     "bookings"
                 ],
                 "summary": "Delete a car booking",
-                "operationId": "a803bf5441fd1ec2bda8acee7972a299",
+                "operationId": "e48d6ccc629f5edd7993138cf2a0bd26",
                 "parameters": [
                     {
                         "name": "id",
@@ -344,17 +336,13 @@
                         }
                     },
                     {
-                        "name": "token",
+                        "parameter": "AuthorizationHeader",
+                        "name": "Authorization",
                         "in": "header",
+                        "description": "Bearer <token>",
                         "required": true,
                         "schema": {
-                            "properties": {
-                                "token": {
-                                    "type": "string",
-                                    "example": "10293182301230123"
-                                }
-                            },
-                            "type": "object"
+                            "type": "string"
                         }
                     }
                 ],
@@ -398,17 +386,13 @@
                         }
                     },
                     {
-                        "name": "token",
+                        "parameter": "AuthorizationHeader",
+                        "name": "Authorization",
                         "in": "header",
+                        "description": "Bearer <token>",
                         "required": true,
                         "schema": {
-                            "properties": {
-                                "token": {
-                                    "type": "string",
-                                    "example": "10293182301230123"
-                                }
-                            },
-                            "type": "object"
+                            "type": "string"
                         }
                     }
                 ],

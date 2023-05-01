@@ -8,48 +8,27 @@ use RicorocksDigitalAgency\Soap\Facades\Soap;
 
 class CarRentalBookingController extends Controller
 {
-    protected $bookings;
-
-    /*public function __construct(bookings $bookings){
-        $this->bookings = $bookings;
-    }*/
-    /**
-     * @OA\Schema(
-     *     schema="Booking",
-     *     required={"booking_id", "car_id", "user_id", "start_date", "end_date", "created_at", "updated_at"},
-     *     @OA\Property(property="booking_id", type="integer", example=1),
-     *     @OA\Property(property="car_id", type="integer", example=1),
-     *     @OA\Property(property="user_id", type="integer", example=1),
-     *     @OA\Property(property="start_date", type="string", format="date-time", example="2023-04-01T00:00:00.000000Z"),
-     *     @OA\Property(property="end_date", type="string", format="date-time", example="2023-04-05T00:00:00.000000Z"),
-     *     @OA\Property(property="created_at", type="string", format="date-time", example="2023-03-18T09:25:53.000000Z"),
-     *     @OA\Property(property="updated_at", type="string", format="date-time", example="2023-03-18T09:25:53.000000Z")
-     * )
-     */
-
     /**
      * Create a car booking
      * @OA\Post(
      *     path="/car-rental/api/v1/bookings",
      *     tags={"bookings"},
      *     @OA\Parameter(
+     *          parameter="AuthorizationHeader",
      *          in="header",
-     *          name="token",
+     *          name="Authorization",
      *          required=true,
      *          @OA\Schema(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="token",
-     *                  type="string",
-     *                  example="10293182301230123"
-     *              )
-     *          )
+     *              type="string"
+     *          ),
+     *          description="Bearer <token>"
      *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
      *             @OA\Property(property="user_id", type="integer", example=1),
      *             @OA\Property(property="car_id", type="integer", example=2),
+     *             @OA\Property(property="paid", type="string", example="2023-04-01"),
      *             @OA\Property(property="start_date", type="string", example="2023-04-01"),
      *             @OA\Property(property="end_date", type="string", example="2023-04-05")
      *         )
@@ -113,17 +92,14 @@ class CarRentalBookingController extends Controller
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
+     *          parameter="AuthorizationHeader",
      *          in="header",
-     *          name="token",
+     *          name="Authorization",
      *          required=true,
      *          @OA\Schema(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="token",
-     *                  type="string",
-     *                  example="10293182301230123"
-     *              )
-     *          )
+     *              type="string"
+     *          ),
+     *          description="Bearer <token>"
      *     ),
      *     @OA\RequestBody(
      *         required=true,
@@ -187,17 +163,14 @@ class CarRentalBookingController extends Controller
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
+     *          parameter="AuthorizationHeader",
      *          in="header",
-     *          name="token",
+     *          name="Authorization",
      *          required=true,
      *          @OA\Schema(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="token",
-     *                  type="string",
-     *                  example="10293182301230123"
-     *              )
-     *          )
+     *              type="string"
+     *          ),
+     *          description="Bearer <token>"
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -240,17 +213,14 @@ class CarRentalBookingController extends Controller
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
+     *          parameter="AuthorizationHeader",
      *          in="header",
-     *          name="token",
+     *          name="Authorization",
      *          required=true,
      *          @OA\Schema(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="token",
-     *                  type="string",
-     *                  example="10293182301230123"
-     *              )
-     *          )
+     *              type="string"
+     *          ),
+     *          description="Bearer <token>"
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -298,17 +268,14 @@ class CarRentalBookingController extends Controller
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
+     *          parameter="AuthorizationHeader",
      *          in="header",
-     *          name="token",
+     *          name="Authorization",
      *          required=true,
      *          @OA\Schema(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="token",
-     *                  type="string",
-     *                  example="10293182301230123"
-     *              )
-     *          )
+     *              type="string"
+     *          ),
+     *          description="Bearer <token>"
      *     ),
      *     @OA\Response(
      *         response=204,
@@ -323,7 +290,7 @@ class CarRentalBookingController extends Controller
      *      )
      * )
      */
-    public function deleteBooking($id)
+    public function deleteBookingt($id)
     {
         $booking = Booking::findOrFail($id);
 

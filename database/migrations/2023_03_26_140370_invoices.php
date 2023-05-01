@@ -19,8 +19,8 @@ return new class extends Migration
                 $table->unsignedBigInteger('customer_id');
                 $table->decimal('total_amount', 8, 2);
                 $table->string('original_currency');
-                $table->decimal('total_amount_in_currency', 8, 2);
-                $table->string('paid_currency');
+                $table->decimal('total_amount_selected_currency', 8, 2);
+                $table->string('selected_currency');
                 $table->date('invoice_date');
                 $table->enum('payment_status', ['Paid', 'Pending']);
                 $table->timestamps();

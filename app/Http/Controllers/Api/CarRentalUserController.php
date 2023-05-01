@@ -11,12 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CarRentalUserController extends Controller
 {
-    protected $users;
-
-    /*public function __construct(users $users){
-        $this->users = $users;
-    }*/
-
     /**
      * Authenticate user
      * @OA\Post (
