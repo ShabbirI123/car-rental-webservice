@@ -20,6 +20,7 @@ class VehicleTypesFactory extends Factory
             'name' => $this->faker->name,
             'transmission' => $this->faker->randomElement(['Automatic', 'Manual']),
             'daily_rate' => $this->faker->randomFloat(2, 1, 100),
+            'price' => $this->faker->randomFloat(2, 1, 100),
             'seats' => $this->faker->numberBetween(2, 7),
             'image' => $this->faker->imageUrl(),
         ];

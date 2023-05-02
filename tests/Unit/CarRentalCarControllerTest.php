@@ -29,6 +29,7 @@ class CarRentalCarControllerTest extends TestCase
             'transmission' => $vehicleType->transmission,
             'daily-rate' => (string) $vehicleType->daily_rate,
             'seats' => $vehicleType->seats,
+            'price' => $vehicleType->price,
             'image' => $vehicleType->image,
             'available' => $vehicle->available,
             'created_at' => $vehicle->created_at->format('Y-m-d\TH:i:s.u\Z'),

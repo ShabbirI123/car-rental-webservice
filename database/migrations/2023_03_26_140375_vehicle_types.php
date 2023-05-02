@@ -18,6 +18,7 @@ return new class extends Migration
                 $table->id('vehicle_type_id');
                 $table->string('name');
                 $table->integer('seats');
+                $table->decimal('price', 8, 2);
                 $table->enum('transmission', ['Automatic', 'Manual']);
                 $table->decimal('daily_rate', 8, 2);
                 $table->string('image')->nullable();

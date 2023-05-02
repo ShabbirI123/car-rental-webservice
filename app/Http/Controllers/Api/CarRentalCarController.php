@@ -40,16 +40,6 @@ class CarRentalCarController extends Controller
      *         required=true,
      *         @OA\Schema(type="string")
      *     ),
-     *     @OA\Parameter(
-     *          parameter="AuthorizationHeader",
-     *          in="header",
-     *          name="Authorization",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="string"
-     *          ),
-     *          description="Bearer <token>"
-     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="success",
@@ -78,6 +68,11 @@ class CarRentalCarController extends Controller
      *                         property="seats",
      *                         type="number",
      *                         example="5"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="price",
+     *                         type="number",
+     *                         example="15"
      *                     ),
      *                     @OA\Property(
      *                         property="image",
@@ -116,6 +111,7 @@ class CarRentalCarController extends Controller
                 'transmission' => $vehicle->vehicleType->transmission,
                 'daily-rate' => $vehicle->vehicleType->daily_rate,
                 'seats' => $vehicle->vehicleType->seats,
+                'price' => (double) $vehicle->vehicleType->price,
                 'image' => $vehicle->vehicleType->image,
                 'available' => (bool) $vehicle->available,
                 'created_at' => $vehicle->created_at,
@@ -130,16 +126,6 @@ class CarRentalCarController extends Controller
      * @OA\Get (
      *     path="/car-rental/api/v1/cars",
      *     tags={"cars"},
-     *     @OA\Parameter(
-     *          parameter="AuthorizationHeader",
-     *          in="header",
-     *          name="Authorization",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="string"
-     *          ),
-     *          description="Bearer <token>"
-     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="success",
@@ -175,6 +161,11 @@ class CarRentalCarController extends Controller
      *                         example="5"
      *                     ),
      *                     @OA\Property(
+     *                         property="price",
+     *                         type="number",
+     *                         example="15"
+     *                     ),
+     *                     @OA\Property(
      *                         property="image",
      *                         type="string",
      *                         example="http://base-url/path/to/image"
@@ -206,6 +197,7 @@ class CarRentalCarController extends Controller
                 'transmission' => $vehicle->vehicleType->transmission,
                 'daily-rate' => $vehicle->vehicleType->daily_rate,
                 'seats' => $vehicle->vehicleType->seats,
+                'price' => (double) $vehicle->vehicleType->price,
                 'image' => $vehicle->vehicleType->image,
                 'available' => (bool) $vehicle->available,
                 'created_at' => $vehicle->created_at,

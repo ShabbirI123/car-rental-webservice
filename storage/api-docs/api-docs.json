@@ -13,18 +13,6 @@
                 ],
                 "summary": "Create a car booking",
                 "operationId": "57c2e55427c97398e3e70154abdd4d63",
-                "parameters": [
-                    {
-                        "parameter": "AuthorizationHeader",
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer <token>",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -39,9 +27,14 @@
                                         "type": "integer",
                                         "example": 2
                                     },
-                                    "paid": {
+                                    "currency": {
                                         "type": "string",
-                                        "example": "2023-04-01"
+                                        "example": "Euro"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "example": 40.5
                                     },
                                     "start_date": {
                                         "type": "string",
@@ -136,16 +129,6 @@
                         "schema": {
                             "type": "integer"
                         }
-                    },
-                    {
-                        "parameter": "AuthorizationHeader",
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer <token>",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
                     }
                 ],
                 "responses": {
@@ -178,120 +161,6 @@
                                             "example": "2023-04-05T00:00:00.000000Z"
                                         },
                                         "created_at": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2023-03-18T09:25:53.000000Z"
-                                        },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2023-03-18T09:25:53.000000Z"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorized: Invalid credentials",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "msg": {
-                                            "type": "string",
-                                            "example": "Invalid credentials"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "bookings"
-                ],
-                "summary": "Update a car booking",
-                "operationId": "18f0d0647da054f1df77b0758fa0e17c",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "parameter": "AuthorizationHeader",
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer <token>",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "start_date": {
-                                        "type": "string",
-                                        "example": "2023-04-01"
-                                    },
-                                    "end_date": {
-                                        "type": "string",
-                                        "example": "2023-04-05"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "booking_id": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "car_id": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "user_id": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "start_date": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2023-04-01T00:00:00.000000Z"
-                                        },
-                                        "end_date": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2023-04-05T00:00:00.000000Z"
-                                        },
-                                        "created_at": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2023-03-18T09:25:53.000000Z"
-                                        },
-                                        "updated_at": {
                                             "type": "string",
                                             "format": "date-time",
                                             "example": "2023-03-18T09:25:53.000000Z"
@@ -334,16 +203,6 @@
                         "schema": {
                             "type": "integer"
                         }
-                    },
-                    {
-                        "parameter": "AuthorizationHeader",
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer <token>",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
                     }
                 ],
                 "responses": {
@@ -383,16 +242,6 @@
                         "required": true,
                         "schema": {
                             "type": "integer"
-                        }
-                    },
-                    {
-                        "parameter": "AuthorizationHeader",
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer <token>",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
                         }
                     }
                 ],
@@ -479,16 +328,6 @@
                         "schema": {
                             "type": "string"
                         }
-                    },
-                    {
-                        "parameter": "AuthorizationHeader",
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer <token>",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
                     }
                 ],
                 "responses": {
@@ -518,6 +357,10 @@
                                         "seats": {
                                             "type": "number",
                                             "example": "5"
+                                        },
+                                        "price": {
+                                            "type": "number",
+                                            "example": "15"
                                         },
                                         "image": {
                                             "type": "string",
@@ -563,18 +406,6 @@
                 ],
                 "summary": "Get cars list",
                 "operationId": "b2e6d36ec2df569ba7729591cd7858c7",
-                "parameters": [
-                    {
-                        "parameter": "AuthorizationHeader",
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer <token>",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "success",
@@ -606,6 +437,10 @@
                                                     "seats": {
                                                         "type": "number",
                                                         "example": "5"
+                                                    },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "example": "15"
                                                     },
                                                     "image": {
                                                         "type": "string",
@@ -734,67 +569,6 @@
             }
         },
         "/car-rental/api/v1/users": {
-            "get": {
-                "tags": [
-                    "users"
-                ],
-                "summary": "Get all users",
-                "operationId": "69e4959835b07b7c26dbb5842937e2f7",
-                "parameters": [
-                    {
-                        "parameter": "AuthorizationHeader",
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer <token>",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "firstname": {
-                                                        "type": "string",
-                                                        "example": "John"
-                                                    },
-                                                    "lastname": {
-                                                        "type": "string",
-                                                        "example": "Doe"
-                                                    },
-                                                    "username": {
-                                                        "type": "string",
-                                                        "example": "johndoe123"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "example": "2021-12-11T09:25:53.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
             "post": {
                 "tags": [
                     "users"
@@ -828,7 +602,7 @@
                                 "example": {
                                     "firstname": "John",
                                     "lastname": "Doe",
-                                    "email": "johndoe123",
+                                    "username": "johndoe123",
                                     "password": "password123"
                                 }
                             }
@@ -886,16 +660,6 @@
                         "schema": {
                             "type": "number"
                         }
-                    },
-                    {
-                        "parameter": "AuthorizationHeader",
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer <token>",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
                     }
                 ],
                 "responses": {
@@ -924,176 +688,6 @@
                                         "created_at": {
                                             "type": "string",
                                             "example": "2021-12-11T09:25:53.000000Z"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "users"
-                ],
-                "summary": "Modify user data",
-                "operationId": "e50c79dd56e05e1d0101c1863fbc9b1e",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "parameter": "AuthorizationHeader",
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer <token>",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "": {
-                                        "properties": {
-                                            "firstname": {
-                                                "type": "string"
-                                            },
-                                            "lastname": {
-                                                "type": "string"
-                                            },
-                                            "username": {
-                                                "type": "string"
-                                            },
-                                            "password": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "type": "object"
-                                    }
-                                },
-                                "type": "object",
-                                "example": {
-                                    "firstname": "JohnNew",
-                                    "lastname": "DoeNew",
-                                    "email": "johndoe123",
-                                    "password": "password123"
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "id": {
-                                            "type": "number",
-                                            "example": 1
-                                        },
-                                        "firstname": {
-                                            "type": "string",
-                                            "example": "JohnNew"
-                                        },
-                                        "lastname": {
-                                            "type": "string",
-                                            "example": "DoeNew"
-                                        },
-                                        "username": {
-                                            "type": "string",
-                                            "example": "johndoe123"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorized: Invalid credentials",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "msg": {
-                                            "type": "string",
-                                            "example": "Invalid credentials"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/car-rental/api/v1/users/deletion/{id}": {
-            "delete": {
-                "tags": [
-                    "users"
-                ],
-                "summary": "Delete user",
-                "operationId": "86dba5bab4b5c9a30885077af1f60a99",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "parameter": "AuthorizationHeader",
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "Bearer <token>",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "msg": {
-                                            "type": "string",
-                                            "example": "delete users success"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorized: Invalid credentials",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "msg": {
-                                            "type": "string",
-                                            "example": "Invalid credentials"
                                         }
                                     },
                                     "type": "object"
