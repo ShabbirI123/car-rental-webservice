@@ -15,7 +15,7 @@ class CarRentalCurrencyController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="currency", type="string", example="Euro"),
+     *             @OA\Property(property="currency", type="string", example="EUR"),
      *             @OA\Property(property="amount", type="double", example=40.5)
      *         )
      *     ),
