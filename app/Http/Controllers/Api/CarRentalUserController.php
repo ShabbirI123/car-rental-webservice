@@ -214,7 +214,14 @@ class CarRentalUserController extends Controller
      *                         example="2021-12-11T09:25:53.000000Z"
      *                     )
      *         )
-     *     )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="User not found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="msg", type="string", example="User not found"),
+     *          )
+     *      )
      * )
      */
     public function getUserData($id)

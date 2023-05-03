@@ -19,11 +19,13 @@ class VehicleTypesTableSeeder extends Seeder
     {
         $vehicleTypes = VehicleTypes::all()->pluck('vehicle_type_id')->toArray();
         $locations = Locations::all()->pluck('location_id')->toArray();
+        $location = $locations[0];
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 10; $i++) {
+            $vehicleType = $vehicleTypes[$i % count($vehicleTypes)];
             Vehicles::create([
-                'vehicle_type_id' => $vehicleTypes[array_rand($vehicleTypes)],
-                'location_id' => $locations[array_rand($locations)],
+                'vehicle_type_id' => $vehicleType,
+                'location_id' => $location,
                 'available' => true,
             ]);
         }

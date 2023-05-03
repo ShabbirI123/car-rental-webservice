@@ -17,13 +17,12 @@ class LocationsTableSeeder extends Seeder
     {
         $locations = [
             [
-                'name' => 'Location A',
-                'address' => '123 Main St',
-                'postal_code' => '12345',
-                'city' => 'City A',
-                'country' => 'Country A'
+                'name' => 'Saucy Sedans',
+                'address' => 'Favoritenstraße 226',
+                'postal_code' => '1100',
+                'city' => 'Vienna',
+                'country' => 'Austria'
             ],
-            // ... (Add more sample locations)
         ];
 
         foreach ($locations as $location) {

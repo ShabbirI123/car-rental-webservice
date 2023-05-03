@@ -7,26 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Vehicles;
 use App\Models\VehicleTypes;
 
-/**
- * @OA\Parameter(
- *     parameter="AuthorizationHeader",
- *     in="header",
- *     name="Authorization",
- *     required=true,
- *     @OA\Schema(
- *         type="string"
- *     ),
- *     description="Bearer <token>"
- * )
- *
- * @OA\SecurityScheme(
- *     securityScheme="sanctum",
- *     type="http",
- *     scheme="bearer",
- *     bearerFormat="JWT",
- *     description="Laravel Sanctum authentication",
- * )
- */
+
 class CarRentalCarController extends Controller
 {
     /**
@@ -206,4 +187,7 @@ class CarRentalCarController extends Controller
 
         return response()->json(['data' => $data]);
     }
+
+
+    //TODO get currency
 }
