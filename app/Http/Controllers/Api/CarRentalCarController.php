@@ -187,7 +187,4 @@ class CarRentalCarController extends Controller
 
         return response()->json(['data' => $data]);
     }
-
-
-    //TODO get currency
 }
