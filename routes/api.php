@@ -17,9 +17,9 @@ use App\Http\Controllers\Api\CarRentalCurrencyController;
 */
 Route::prefix('car-rental/api/v1')->group(function () {
     // Users
-    Route::post('/users', [CarRentalUserController::class, 'createUser']);
+    Route::post('/users/register', [CarRentalUserController::class, 'createUser']);
     //Not restful
-    Route::post('/users/login', [CarRentalUserController::class, 'authenticateUser']);
+    Route::post('/users/login', [CarRentalUserController::class, 'loginUser']);
     Route::get('/users/{id}', [CarRentalUserController::class, 'getUserData']);
 
     // Cars

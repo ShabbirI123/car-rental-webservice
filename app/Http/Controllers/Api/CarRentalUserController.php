@@ -64,7 +64,7 @@ class CarRentalUserController extends Controller
      *      )
      * )
      */
-    public function authenticateUser(Request $request)
+    public function loginUser(Request $request)
     {
         $validatedData = $request->validate([
             'username' => 'required|string',
@@ -95,7 +95,7 @@ class CarRentalUserController extends Controller
     /**
      * Create user
      * @OA\Post (
-     *     path="/car-rental/api/v1/users",
+     *     path="/car-rental/api/v1/users/register",
      *     tags={"users"},
      *     @OA\RequestBody(
      *         @OA\MediaType(

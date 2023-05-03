@@ -712,7 +712,7 @@
                     "users"
                 ],
                 "summary": "Authenticate user",
-                "operationId": "544cd48f8c888ab186fbc18440dc16fe",
+                "operationId": "dd991682bd865b3688d261f93438ec6d",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -807,13 +807,13 @@
                 }
             }
         },
-        "/car-rental/api/v1/users": {
+        "/car-rental/api/v1/users/register": {
             "post": {
                 "tags": [
                     "users"
                 ],
                 "summary": "Create user",
-                "operationId": "ce3505aeac8149c112c6c64c4c6c42c4",
+                "operationId": "7e80254697f747169ca2e894cb44b106",
                 "requestBody": {
                     "content": {
                         "application/json": {
