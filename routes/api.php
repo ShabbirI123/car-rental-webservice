@@ -28,6 +28,7 @@ Route::prefix('car-rental/api/v1')->group(function () {
 
     // Bookings
     Route::post('/bookings', [CarRentalBookingController::class, 'createBooking']);
+    Route::post('/bookings/{id}', [CarRentalBookingController::class, 'cancelBooking']);
     Route::get('/bookings/{id}', [CarRentalBookingController::class, 'getBooking']);
     Route::get('/users/{user_id}/bookings', [CarRentalBookingController::class, 'getUserBookings']);
     Route::delete('/bookings/{id}', [CarRentalBookingController::class, 'deleteBooking']);

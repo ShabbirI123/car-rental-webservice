@@ -3,10 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Vehicles;
-use App\Models\VehicleTypes;
-
 
 class CarRentalCarController extends Controller
 {
