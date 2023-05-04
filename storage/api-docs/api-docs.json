@@ -95,7 +95,7 @@
                             }
                         }
                     },
-                    "403": {
+                    "422": {
                         "description": "Unauthorized: Invalid credentials",
                         "content": {
                             "application/json": {
