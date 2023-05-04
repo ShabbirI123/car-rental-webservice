@@ -41,7 +41,7 @@ class CarRentalBookingController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *          response=403,
+     *          response=422,
      *          description="Unauthorized: Invalid credentials",
      *          @OA\JsonContent(
      *              @OA\Property(property="msg", type="string", example="Invalid credentials"),

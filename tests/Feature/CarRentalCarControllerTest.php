@@ -3,11 +3,10 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use App\Models\VehicleTypes;
 use App\Models\Vehicles;
 use App\Http\Controllers\Api\CarRentalCarController;
+use Tests\TestCase;
 
 class CarRentalCarControllerTest extends TestCase
 {
@@ -27,7 +26,7 @@ class CarRentalCarControllerTest extends TestCase
             'vehicle-id' => $vehicle->vehicle_id,
             'vehicle-name' => $vehicleType->name,
             'transmission' => $vehicleType->transmission,
-            'daily-rate' => (string) $vehicleType->daily_rate,
+            'daily-rate' => $vehicleType->daily_rate,
             'seats' => $vehicleType->seats,
             'price' => $vehicleType->price,
             'image' => $vehicleType->image,

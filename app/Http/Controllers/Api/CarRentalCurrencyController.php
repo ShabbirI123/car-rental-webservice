@@ -37,8 +37,6 @@ class CarRentalCurrencyController extends Controller
      */
     public function getCurrencyAmount(Request $request)
     {
-        $price = 0;
-
         $validatedData = $request->validate([
             'currency' => 'required|string',
             'amount' => 'required|numeric'
@@ -106,11 +104,10 @@ class CarRentalCurrencyController extends Controller
      */
     public function getCurrencyList()
     {
-
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://3.72.41.7:8080/?wsdl=null',
+            CURLOPT_URL => 'http://3.72.41.7:8080/?wsdl',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -118,7 +115,7 @@ class CarRentalCurrencyController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => '<?xml version="1.0" encoding="UTF-8"?>
+            CURLOPT_POSTFIELDS =>'<?xml version="1.0" encoding="UTF-8"?>
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:your="CurrencyConverter">
    <soapenv:Header/>
    <soapenv:Body>
@@ -139,7 +136,7 @@ class CarRentalCurrencyController extends Controller
 
         // Return response if everything is successful
         return response()->json([
-            'currency_amount' => $list
+            'currency_amount' => json_decode($list, true)
         ], 201);
     }
 }
