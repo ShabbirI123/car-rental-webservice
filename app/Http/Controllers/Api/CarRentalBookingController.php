@@ -299,7 +299,7 @@ class CarRentalBookingController extends Controller
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
-     *          response=204,
+     *          response=200,
      *          description="Canceled",
      *          @OA\JsonContent(
      *              @OA\Property(property="msg", type="string", example="Deletion success"),
@@ -325,7 +325,7 @@ class CarRentalBookingController extends Controller
 
         $booking->delete();
 
-        return response()->json(['msg' => 'Deletion success'], 204);
+        return response()->json(['msg' => 'Deletion success'], 200);
     }
 
 
@@ -341,7 +341,7 @@ class CarRentalBookingController extends Controller
      *         @OA\Schema(type="integer")
      *     ),
      *      @OA\Response(
-     *          response=204,
+     *          response=200,
      *          description="Canceled",
      *          @OA\JsonContent(
      *              @OA\Property(property="msg", type="string", example="Cancellation success"),
@@ -365,6 +365,6 @@ class CarRentalBookingController extends Controller
         $vehicle->available = true;
         $vehicle->save();
 
-        return response()->json(['msg' => 'Cancellation success'], 204);
+        return response()->json(['msg' => 'Cancellation success'], 200);
     }
 }
