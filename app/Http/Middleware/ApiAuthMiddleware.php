@@ -19,7 +19,7 @@ class ApiAuthMiddleware
     {
         $clientIp = $request->ip();
 
-        if ($clientIp !== '127.0.0.1' || $clientIp !== '::1') {
+        if ($clientIp !== '127.0.0.1') {
             $apiKey = Config::get('API_KEY');
 
             $requestApiKey = $request->header('API-Key');
@@ -28,7 +28,7 @@ class ApiAuthMiddleware
                 return $next($request);
             }
 
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => "Unauthorized from $clientIp"], 401);
         }
 
         return $next($request);

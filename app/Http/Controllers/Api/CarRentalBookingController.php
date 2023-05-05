@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\VehicleTypes;
 use Illuminate\Http\Request;
 use App\Models\Invoices;
 use App\Models\Rentals;
@@ -81,8 +82,8 @@ class CarRentalBookingController extends Controller
    <soapenv:Body>
       <your:convert>
          <your:api_key>apikey1</your:api_key>
-         <your:base_currency>USD</your:base_currency>
-         <your:target_currency>'.$validatedData['currency'].'</your:target_currency>
+         <your:base_currency>'.$validatedData['currency'].'</your:base_currency>
+         <your:target_currency>USD</your:target_currency>
          <your:amount>'.$validatedData['amount'].'</your:amount>
       </your:convert>
    </soapenv:Body>
@@ -158,7 +159,7 @@ class CarRentalBookingController extends Controller
      *         response=200,
      *         description="success",
      *         @OA\JsonContent(
-    @OA\Property(property="booking", type="object",
+     *              @OA\Property(property="booking", type="object",
      *                  @OA\Property(property="rental_id", type="integer", example=1),
      *                  @OA\Property(property="customer_id", type="integer", example=1),
      *                  @OA\Property(property="vehicle_id", type="integer", example=1),
@@ -244,7 +245,19 @@ class CarRentalBookingController extends Controller
      *                      @OA\Property(property="start_date", type="string", example="2023-01-01"),
      *                      @OA\Property(property="end_date", type="string", example="2023-01-07"),
      *                      @OA\Property(property="created_at", type="string", example="2023-01-01T00:00:00.000000Z"),
-     *                      @OA\Property(property="updated_at", type="string", example="2023-01-01T00:00:00.000000Z"),)
+     *                      @OA\Property(property="updated_at", type="string", example="2023-01-01T00:00:00.000000Z"),
+     *                  ),
+     *                  @OA\Items(
+     *                     @OA\Property(property="vehicle-id",type="number",example="1"),
+     *                     @OA\Property(property="vehicle-name",type="string",example="Toyota Hybrid"),
+     *                     @OA\Property(property="transmission",type="string",example="automatic"),
+     *                     @OA\Property(property="daily-rate",type="float",example="3.8"),
+     *                     @OA\Property(property="seats",type="number",example="5"),
+     *                     @OA\Property(property="price",type="number",example="15"),
+     *                     @OA\Property(property="image",type="string",example="http://base-url/path/to/image"),
+     *                     @OA\Property(property="available",type="boolean",example="true"),
+     *                     @OA\Property(property="created_at",type="string",example="2021-12-11T09:25:53.000000Z")
+     *                  ),
      *             )
      *         )
      *     ),
@@ -259,11 +272,19 @@ class CarRentalBookingController extends Controller
      */
     public function getUserBookings($user_id)
     {
+        $data = [];
         $bookings = Rentals::where('customer_id', $user_id)->get();
 
+        foreach ($bookings as $booking):
+            $vehicle = Vehicles::where('vehicle_id', $booking->vehicle_id)->get();
+            $vehicle_type = VehicleTypes::where('vehicle_type_id', $vehicle->vehicle_type_id)->get();
+            array_push($data, [
+               'booking' => $booking,
+               'vehicle_type' => $vehicle_type
+            ]);
+        endforeach;
 
-
-        return response()->json(['bookings' => $bookings], 200);
+        return response()->json(['bookings' => $data], 200);
     }
 
     /**
@@ -280,6 +301,9 @@ class CarRentalBookingController extends Controller
      *     @OA\Response(
      *         response=204,
      *         description="deleted"
+     *         @OA\JsonContent(
+     *              @OA\Property(property="msg", type="string", example="Deletion success"),
+     *         )
      *     ),
      *     @OA\Response(
      *          response=403,
@@ -301,7 +325,7 @@ class CarRentalBookingController extends Controller
 
         $booking->delete();
 
-        return response()->json(null, 204);
+        return response()->json(['msg' => 'Deletion success'], 204);
     }
 
 
@@ -319,6 +343,9 @@ class CarRentalBookingController extends Controller
      *     @OA\Response(
      *         response=204,
      *         description="canceled"
+     *         @OA\JsonContent(
+     *              @OA\Property(property="msg", type="string", example="Cancellation success"),
+     *         )
      *     ),
      *     @OA\Response(
      *          response=403,
@@ -338,6 +365,6 @@ class CarRentalBookingController extends Controller
         $vehicle->available = true;
         $vehicle->save();
 
-        return response()->json(null, 204);
+        return response()->json(['msg' => 'Cancellation success'], 204);
     }
 }
