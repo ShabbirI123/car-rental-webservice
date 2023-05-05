@@ -59,8 +59,8 @@ class CarRentalCurrencyController extends Controller
    <soapenv:Body>
       <your:convert>
          <your:api_key>apikey1</your:api_key>
-         <your:base_currency>' . $validatedData['currency'] . '</your:base_currency>
-         <your:target_currency>USD</your:target_currency>
+         <your:base_currency>USD</your:base_currency>
+         <your:target_currency>' . $validatedData['currency'] . '</your:target_currency>
          <your:amount>' . $validatedData['amount'] . '</your:amount>
       </your:convert>
    </soapenv:Body>
