@@ -301,7 +301,20 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "canceled"
+                        "description": "Canceled",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Cancellation success"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "403": {
                         "description": "Unauthorized: Invalid credentials",
@@ -339,7 +352,20 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "deleted"
+                        "description": "Canceled",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Deletion success"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "403": {
                         "description": "Unauthorized: Invalid credentials",

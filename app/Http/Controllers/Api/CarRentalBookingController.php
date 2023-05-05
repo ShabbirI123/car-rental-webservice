@@ -277,10 +277,10 @@ class CarRentalBookingController extends Controller
 
         foreach ($bookings as $booking):
             $vehicle = Vehicles::where('vehicle_id', $booking->vehicle_id)->get();
-            $vehicle_type = VehicleTypes::where('vehicle_type_id', $vehicle->vehicle_type_id)->get();
+            $vehicle_type = VehicleTypes::where('vehicle_type_id', $vehicle[0]->vehicle_type_id)->get();
             array_push($data, [
                'booking' => $booking,
-               'vehicle_type' => $vehicle_type
+               'vehicle_type' => $vehicle_type[0]
             ]);
         endforeach;
 
@@ -299,12 +299,12 @@ class CarRentalBookingController extends Controller
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Response(
-     *         response=204,
-     *         description="deleted"
-     *         @OA\JsonContent(
+     *          response=204,
+     *          description="Canceled",
+     *          @OA\JsonContent(
      *              @OA\Property(property="msg", type="string", example="Deletion success"),
-     *         )
-     *     ),
+     *          )
+     *      ),
      *     @OA\Response(
      *          response=403,
      *          description="Unauthorized: Invalid credentials",
@@ -340,13 +340,13 @@ class CarRentalBookingController extends Controller
      *         required=true,
      *         @OA\Schema(type="integer")
      *     ),
-     *     @OA\Response(
-     *         response=204,
-     *         description="canceled"
-     *         @OA\JsonContent(
+     *      @OA\Response(
+     *          response=204,
+     *          description="Canceled",
+     *          @OA\JsonContent(
      *              @OA\Property(property="msg", type="string", example="Cancellation success"),
-     *         )
-     *     ),
+     *          )
+     *      ),
      *     @OA\Response(
      *          response=403,
      *          description="Unauthorized: Invalid credentials",
