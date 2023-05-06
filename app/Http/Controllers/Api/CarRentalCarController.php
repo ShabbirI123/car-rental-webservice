@@ -3,16 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Vehicles;
 
 class CarRentalCarController extends Controller
 {
-    protected $cars;
-
-    /*public function __construct(cars $cars){
-        $this->cars = $cars;
-    }*/
-
     /**
      * Get car details
      * @OA\Get (
@@ -54,6 +48,11 @@ class CarRentalCarController extends Controller
      *                         example="5"
      *                     ),
      *                     @OA\Property(
+     *                         property="price",
+     *                         type="number",
+     *                         example="15"
+     *                     ),
+     *                     @OA\Property(
      *                         property="image",
      *                         type="string",
      *                         example="http://base-url/path/to/image"
@@ -69,15 +68,35 @@ class CarRentalCarController extends Controller
      *                         example="2021-12-11T09:25:53.000000Z"
      *                     )
      *         )
-     *     )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Car not found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="msg", type="string", example="Car not found"),
+     *          )
+     *      )
      * )
      */
-    public function get($id){
-        $cars = $this->cars->getcars($id);
-        if($cars){
-            return response()->json($cars);
+    public function getCarDetails($id)
+    {
+        $vehicle = Vehicles::with('vehicleType')->findOrFail($id);
+
+        if ($vehicle) {
+            return response()->json([
+                'vehicle-id' => $vehicle->vehicle_id,
+                'vehicle-name' => $vehicle->vehicleType->name,
+                'transmission' => $vehicle->vehicleType->transmission,
+                'daily-rate' => (double) $vehicle->vehicleType->daily_rate,
+                'seats' => (int) $vehicle->vehicleType->seats,
+                'price' => (double) $vehicle->vehicleType->price,
+                'image' => $vehicle->vehicleType->image,
+                'available' => (bool) $vehicle->available,
+                'created_at' => $vehicle->created_at,
+            ]);
+        } else {
+            return response()->json(['msg' => 'Car not found'], 404);
         }
-        return response()->json(["msg"=>"cars item not found"],404);
     }
 
     /**
@@ -120,6 +139,11 @@ class CarRentalCarController extends Controller
      *                         example="5"
      *                     ),
      *                     @OA\Property(
+     *                         property="price",
+     *                         type="number",
+     *                         example="15"
+     *                     ),
+     *                     @OA\Property(
      *                         property="image",
      *                         type="string",
      *                         example="http://base-url/path/to/image"
@@ -140,9 +164,24 @@ class CarRentalCarController extends Controller
      *     )
      * )
      */
-    public function gets(){
-        $carss = $this->cars->getscars();
-        return response()->json(["rows"=>$carss]);
-    }
+    public function getAllCars()
+    {
+        $vehicles = Vehicles::with('vehicleType')->get();
 
+        $data = $vehicles->map(function ($vehicle) {
+            return [
+                'vehicle-id' => $vehicle->vehicle_id,
+                'vehicle-name' => $vehicle->vehicleType->name,
+                'transmission' => $vehicle->vehicleType->transmission,
+                'daily-rate' => (double) $vehicle->vehicleType->daily_rate,
+                'seats' => (int) $vehicle->vehicleType->seats,
+                'price' => (double) $vehicle->vehicleType->price,
+                'image' => $vehicle->vehicleType->image,
+                'available' => (bool) $vehicle->available,
+                'created_at' => $vehicle->created_at,
+            ];
+        });
+
+        return response()->json(['data' => $data]);
+    }
 }

@@ -5,16 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\Console\Helper\Table;
+use App\Models\Customers;
+use Illuminate\Support\Facades\Hash;
 
 class CarRentalUserController extends Controller
 {
-    protected $users;
-
-    /*public function __construct(users $users){
-        $this->users = $users;
-    }*/
-
     /**
      * Authenticate user
      * @OA\Post (
@@ -69,20 +64,38 @@ class CarRentalUserController extends Controller
      *      )
      * )
      */
-    public function authenticateUser(Request $request)
+    public function loginUser(Request $request)
     {
-        //$users = $this->users->createusers($request->all());
-        $data = [
-            'status' => 'success',
-            'message' => 'Hello World!'
-        ];
-        return response()->json($data);
+        $validatedData = $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        $user = Customers::where('username', $validatedData['username'])->first();
+
+        if ($user) {
+            if (Hash::check($validatedData['password'], $user->password)) {
+                $token = $user->createToken('authToken')->plainTextToken;
+
+                return response()->json([
+                    'id' => $user->customer_id,
+                    'firstname' => $user->first_name,
+                    'lastname' => $user->last_name,
+                    'username' => $user->username,
+                    'token' => $token,
+                ], 200);
+            } else {
+                return response()->json(['msg' => 'Invalid credentials'], 403);
+            }
+        } else {
+            return response()->json(['msg' => 'User not found'], 404);
+        }
     }
 
     /**
      * Create user
      * @OA\Post (
-     *     path="/car-rental/api/v1/users",
+     *     path="/car-rental/api/v1/users/register",
      *     tags={"users"},
      *     @OA\RequestBody(
      *         @OA\MediaType(
@@ -110,7 +123,7 @@ class CarRentalUserController extends Controller
      *                 example={
      *                     "firstname":"John",
      *                     "lastname":"Doe",
-     *                     "email":"johndoe123",
+     *                     "username":"johndoe123",
      *                     "password":"password123"
      *                }
      *             )
@@ -134,99 +147,29 @@ class CarRentalUserController extends Controller
      */
     public function createUser(Request $request)
     {
-        try {
-            var_dump($request);
-            exit();
-            if (DB::table('customers')->where('username', 1)->doesntExist()) {
-                return response()->json($users);
-            }
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(["msg" => $exception->getMessage()], 404);
-        }
-    }
+        $validatedData = $request->validate([
+            'firstname' => 'required|string',
+            'lastname' => 'required|string',
+            'username' => 'required|string|unique:customers',
+            'password' => 'required|string',
+        ]);
 
-    /**
-     * Modify user data
-     * @OA\Put (
-     *     path="/car-rental/api/v1/users/{id}",
-     *     tags={"users"},
-     *     @OA\Parameter(
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *          in="header",
-     *          name="token",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="token",
-     *                  type="string",
-     *                  example="10293182301230123"
-     *              )
-     *          )
-     *     ),
-     *     @OA\RequestBody(
-     *         @OA\MediaType(
-     *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 @OA\Property(
-     *                      type="object",
-     *                      @OA\Property(
-     *                          property="firstname",
-     *                          type="string"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="lastname",
-     *                          type="string"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="username",
-     *                          type="string"
-     *                      ),
-     *                      @OA\Property(
-     *                          property="password",
-     *                          type="string"
-     *                      )
-     *                 ),
-     *                 example={
-     *                     "firstname":"JohnNew",
-     *                     "lastname":"DoeNew",
-     *                     "email":"johndoe123",
-     *                     "password":"password123"
-     *                }
-     *             )
-     *         )
-     *      ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="success",
-     *         @OA\JsonContent(
-     *              @OA\Property(property="id", type="number", example=1),
-     *              @OA\Property(property="firstname", type="string", example="JohnNew"),
-     *              @OA\Property(property="lastname", type="string", example="DoeNew"),
-     *              @OA\Property(property="username", type="string", example="johndoe123"),
-     *         )
-     *     ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Unauthorized: Invalid credentials",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="msg", type="string", example="Invalid credentials"),
-     *          )
-     *      )
-     * )
-     */
-    public function modifyUserData($id, Request $request)
-    {
-        $users = $this->users->getusers($id);
-        if ($users) {
-            return response()->json($users);
+        try {
+            if (DB::table('customers')->where('username', $validatedData['username'])->doesntExist()) {
+                $user = new Customers;
+                $user->first_name = $validatedData['firstname'];
+                $user->last_name = $validatedData['lastname'];
+                $user->username = $validatedData['username'];
+                $user->password = bcrypt($validatedData['password']);
+                $user->save();
+
+                return response()->json(['msg' => 'Registration successful'], 201);
+            } else {
+                return response()->json(['msg' => 'User already exists'], 409);
+            }
+        } catch (Exception $exception) {
+            return response()->json(['msg' => $exception->getMessage()], 500);
         }
-        return response()->json(["msg" => "users item not found"], 404);
     }
 
     /**
@@ -270,112 +213,30 @@ class CarRentalUserController extends Controller
      *                         example="2021-12-11T09:25:53.000000Z"
      *                     )
      *         )
-     *     )
-     * )
-     */
-    public function getUserData($id)
-    {
-        $userss = $this->users->getsusers();
-        return response()->json(["rows" => $userss]);
-    }
-
-    /**
-     * Get all users
-     * @OA\Get  (
-     *     path="/car-rental/api/v1/users",
-     *     tags={"users"},
-     *      @OA\Response(
-     *         response=200,
-     *         description="success",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 type="array",
-     *                 property="data",
-     *                 @OA\Items(
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="id",
-     *                         type="number",
-     *                         example="1"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="firstname",
-     *                         type="string",
-     *                         example="John"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="lastname",
-     *                         type="string",
-     *                         example="Doe"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="username",
-     *                         type="string",
-     *                         example="johndoe123"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="created_at",
-     *                         type="string",
-     *                         example="2021-12-11T09:25:53.000000Z"
-     *                     )
-     *                 )
-     *             )
-     *         )
-     *     )
-     * )
-     */
-    public function getAllUsers()
-    {
-
-    }
-
-    /**
-     * Delete user
-     * @OA\Delete (
-     *     path="/car-rental/api/v1/users/deletion/{id}",
-     *     tags={"users"},
-     *     @OA\Parameter(
-     *         in="path",
-     *         name="id",
-     *         required=true,
-     *         @OA\Schema(type="number")
-     *     ),
-     *      @OA\Parameter(
-     *          in="header",
-     *          name="token",
-     *          required=true,
-     *          @OA\Schema(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="token",
-     *                  type="string",
-     *                  example="10293182301230123"
-     *              )
-     *          )
      *     ),
      *     @OA\Response(
-     *         response=204,
-     *         description="success",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="msg", type="string", example="delete users success")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *          response=403,
-     *          description="Unauthorized: Invalid credentials",
+     *          response=404,
+     *          description="User not found",
      *          @OA\JsonContent(
-     *              @OA\Property(property="msg", type="string", example="Invalid credentials"),
+     *              @OA\Property(property="msg", type="string", example="User not found"),
      *          )
      *      )
      * )
      */
-    public function deleteUser($id)
+    public function getUserData($id)
     {
-        try {
-            $users = $this->users->deleteusers($id);
-            return response()->json(["msg" => "delete users success"]);
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(["msg" => $exception->getMessage()], 404);
+        $user = Customers::find($id);
+
+        if (!$user) {
+            return response()->json(['msg' => 'User not found'], 404);
         }
+
+        return response()->json([
+            'id' => $user->customer_id,
+            'firstname' => $user->first_name,
+            'lastname' => $user->last_name,
+            'username' => $user->username,
+            'created_at' => $user->created_at,
+        ]);
     }
 }

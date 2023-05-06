@@ -12,23 +12,7 @@
                     "bookings"
                 ],
                 "summary": "Create a car booking",
-                "operationId": "158316d3a1524549ebc160af1511203c",
-                "parameters": [
-                    {
-                        "name": "token",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "properties": {
-                                "token": {
-                                    "type": "string",
-                                    "example": "10293182301230123"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                ],
+                "operationId": "57c2e55427c97398e3e70154abdd4d63",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -39,9 +23,18 @@
                                         "type": "integer",
                                         "example": 1
                                     },
-                                    "car_id": {
+                                    "vehicle_id": {
                                         "type": "integer",
                                         "example": 2
+                                    },
+                                    "currency": {
+                                        "type": "string",
+                                        "example": "Euro"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "example": 40.5
                                     },
                                     "start_date": {
                                         "type": "string",
@@ -68,7 +61,7 @@
                                             "type": "integer",
                                             "example": 1
                                         },
-                                        "car_id": {
+                                        "vehicle_id": {
                                             "type": "integer",
                                             "example": 1
                                         },
@@ -102,7 +95,7 @@
                             }
                         }
                     },
-                    "403": {
+                    "422": {
                         "description": "Unauthorized: Invalid credentials",
                         "content": {
                             "application/json": {
@@ -127,7 +120,7 @@
                     "bookings"
                 ],
                 "summary": "Get a specific car booking",
-                "operationId": "d0cf74e3267add49121c4ea03ea760b3",
+                "operationId": "e349323e05fe2a87db663d9a512a0b4a",
                 "parameters": [
                     {
                         "name": "id",
@@ -135,20 +128,6 @@
                         "required": true,
                         "schema": {
                             "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "token",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "properties": {
-                                "token": {
-                                    "type": "string",
-                                    "example": "10293182301230123"
-                                }
-                            },
-                            "type": "object"
                         }
                     }
                 ],
@@ -159,37 +138,126 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "booking_id": {
-                                            "type": "integer",
-                                            "example": 1
+                                        "booking": {
+                                            "properties": {
+                                                "rental_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "customer_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "vehicle_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "start_date": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2023-04-01"
+                                                },
+                                                "end_date": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2023-04-05"
+                                                },
+                                                "total_days": {
+                                                    "type": "integer",
+                                                    "example": 4
+                                                },
+                                                "invoice_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-03-18T09:25:53.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-03-18T09:25:53.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
                                         },
-                                        "car_id": {
-                                            "type": "integer",
-                                            "example": 1
+                                        "invoice": {
+                                            "properties": {
+                                                "invoice_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "customer_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "total_amount": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 500
+                                                },
+                                                "original_currency": {
+                                                    "type": "string",
+                                                    "example": "USD"
+                                                },
+                                                "total_amount_selected_currency": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 445
+                                                },
+                                                "selected_currency": {
+                                                    "type": "string",
+                                                    "example": "EUR"
+                                                },
+                                                "invoice_date": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2023-03-18"
+                                                },
+                                                "payment_status": {
+                                                    "type": "string",
+                                                    "example": "Paid"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-03-18T09:25:53.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-03-18T09:25:53.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
                                         },
-                                        "user_id": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "start_date": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2023-04-01T00:00:00.000000Z"
-                                        },
-                                        "end_date": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2023-04-05T00:00:00.000000Z"
-                                        },
-                                        "created_at": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2023-03-18T09:25:53.000000Z"
-                                        },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2023-03-18T09:25:53.000000Z"
+                                        "vehicle": {
+                                            "properties": {
+                                                "vehicle_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "vehicle_type_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "location_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "available": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2023-03-18T09:25:53.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -215,12 +283,12 @@
                     }
                 }
             },
-            "put": {
+            "post": {
                 "tags": [
                     "bookings"
                 ],
-                "summary": "Update a car booking",
-                "operationId": "10b366f6bcbf3ec88aca732eb960f461",
+                "summary": "Cancel a car booking",
+                "operationId": "8a50dd81a63c79ad1e421e0f9ae04b5d",
                 "parameters": [
                     {
                         "name": "id",
@@ -229,80 +297,18 @@
                         "schema": {
                             "type": "integer"
                         }
-                    },
-                    {
-                        "name": "token",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "properties": {
-                                "token": {
-                                    "type": "string",
-                                    "example": "10293182301230123"
-                                }
-                            },
-                            "type": "object"
-                        }
                     }
                 ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "start_date": {
-                                        "type": "string",
-                                        "example": "2023-04-01"
-                                    },
-                                    "end_date": {
-                                        "type": "string",
-                                        "example": "2023-04-05"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
                 "responses": {
-                    "200": {
-                        "description": "success",
+                    "204": {
+                        "description": "Canceled",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "booking_id": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "car_id": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "user_id": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "start_date": {
+                                        "msg": {
                                             "type": "string",
-                                            "format": "date-time",
-                                            "example": "2023-04-01T00:00:00.000000Z"
-                                        },
-                                        "end_date": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2023-04-05T00:00:00.000000Z"
-                                        },
-                                        "created_at": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2023-03-18T09:25:53.000000Z"
-                                        },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2023-03-18T09:25:53.000000Z"
+                                            "example": "Cancellation success"
                                         }
                                     },
                                     "type": "object"
@@ -333,7 +339,7 @@
                     "bookings"
                 ],
                 "summary": "Delete a car booking",
-                "operationId": "a803bf5441fd1ec2bda8acee7972a299",
+                "operationId": "5f202d4fbca3e7bb0d4e479ebe08081e",
                 "parameters": [
                     {
                         "name": "id",
@@ -342,25 +348,24 @@
                         "schema": {
                             "type": "integer"
                         }
-                    },
-                    {
-                        "name": "token",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "properties": {
-                                "token": {
-                                    "type": "string",
-                                    "example": "10293182301230123"
-                                }
-                            },
-                            "type": "object"
-                        }
                     }
                 ],
                 "responses": {
                     "204": {
-                        "description": "deleted"
+                        "description": "Canceled",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Deletion success"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "403": {
                         "description": "Unauthorized: Invalid credentials",
@@ -396,20 +401,6 @@
                         "schema": {
                             "type": "integer"
                         }
-                    },
-                    {
-                        "name": "token",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "properties": {
-                                "token": {
-                                    "type": "string",
-                                    "example": "10293182301230123"
-                                }
-                            },
-                            "type": "object"
-                        }
                     }
                 ],
                 "responses": {
@@ -431,7 +422,7 @@
                                                         "type": "integer",
                                                         "example": 1
                                                     },
-                                                    "car_id": {
+                                                    "vehicle_id": {
                                                         "type": "integer",
                                                         "example": 1
                                                     },
@@ -486,7 +477,7 @@
                     "cars"
                 ],
                 "summary": "Get car details",
-                "operationId": "05a3ea36b4eeca0429ca37c324d010b3",
+                "operationId": "d521feef0acba1c9e89afb4ea705310c",
                 "parameters": [
                     {
                         "name": "id",
@@ -525,6 +516,10 @@
                                             "type": "number",
                                             "example": "5"
                                         },
+                                        "price": {
+                                            "type": "number",
+                                            "example": "15"
+                                        },
                                         "image": {
                                             "type": "string",
                                             "example": "http://base-url/path/to/image"
@@ -542,6 +537,22 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "description": "Car not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Car not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -552,7 +563,7 @@
                     "cars"
                 ],
                 "summary": "Get cars list",
-                "operationId": "5ce09fe636d624cb114991250e0bbbb2",
+                "operationId": "b2e6d36ec2df569ba7729591cd7858c7",
                 "responses": {
                     "200": {
                         "description": "success",
@@ -585,6 +596,10 @@
                                                         "type": "number",
                                                         "example": "5"
                                                     },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "example": "15"
+                                                    },
                                                     "image": {
                                                         "type": "string",
                                                         "example": "http://base-url/path/to/image"
@@ -610,13 +625,120 @@
                 }
             }
         },
+        "/car-rental/api/v1/currencies": {
+            "get": {
+                "tags": [
+                    "currencies"
+                ],
+                "summary": "Get currency list",
+                "operationId": "3d92c40b754b36db4e7bd7f25ced9844",
+                "responses": {
+                    "201": {
+                        "description": "created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "currency_amount": {
+                                            "type": "number",
+                                            "format": "double",
+                                            "example": 40.5
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized: Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "currencies"
+                ],
+                "summary": "Get currency amount",
+                "operationId": "788b95c363e1e332832d5840b22d98eb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "currency": {
+                                        "type": "string",
+                                        "example": "EUR"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "double",
+                                        "example": 40.5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "currency_amount": {
+                                            "type": "number",
+                                            "format": "double",
+                                            "example": 40.5
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized: Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/car-rental/api/v1/users/login": {
             "post": {
                 "tags": [
                     "users"
                 ],
                 "summary": "Authenticate user",
-                "operationId": "544cd48f8c888ab186fbc18440dc16fe",
+                "operationId": "dd991682bd865b3688d261f93438ec6d",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -711,62 +833,13 @@
                 }
             }
         },
-        "/car-rental/api/v1/users": {
-            "get": {
-                "tags": [
-                    "users"
-                ],
-                "summary": "Get all users",
-                "operationId": "69e4959835b07b7c26dbb5842937e2f7",
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "firstname": {
-                                                        "type": "string",
-                                                        "example": "John"
-                                                    },
-                                                    "lastname": {
-                                                        "type": "string",
-                                                        "example": "Doe"
-                                                    },
-                                                    "username": {
-                                                        "type": "string",
-                                                        "example": "johndoe123"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "example": "2021-12-11T09:25:53.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
+        "/car-rental/api/v1/users/register": {
             "post": {
                 "tags": [
                     "users"
                 ],
                 "summary": "Create user",
-                "operationId": "ce3505aeac8149c112c6c64c4c6c42c4",
+                "operationId": "7e80254697f747169ca2e894cb44b106",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -794,7 +867,7 @@
                                 "example": {
                                     "firstname": "John",
                                     "lastname": "Doe",
-                                    "email": "johndoe123",
+                                    "username": "johndoe123",
                                     "password": "password123"
                                 }
                             }
@@ -886,178 +959,16 @@
                                 }
                             }
                         }
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "users"
-                ],
-                "summary": "Modify user data",
-                "operationId": "e50c79dd56e05e1d0101c1863fbc9b1e",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
                     },
-                    {
-                        "name": "token",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "properties": {
-                                "token": {
-                                    "type": "string",
-                                    "example": "10293182301230123"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "": {
-                                        "properties": {
-                                            "firstname": {
-                                                "type": "string"
-                                            },
-                                            "lastname": {
-                                                "type": "string"
-                                            },
-                                            "username": {
-                                                "type": "string"
-                                            },
-                                            "password": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "type": "object"
-                                    }
-                                },
-                                "type": "object",
-                                "example": {
-                                    "firstname": "JohnNew",
-                                    "lastname": "DoeNew",
-                                    "email": "johndoe123",
-                                    "password": "password123"
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "id": {
-                                            "type": "number",
-                                            "example": 1
-                                        },
-                                        "firstname": {
-                                            "type": "string",
-                                            "example": "JohnNew"
-                                        },
-                                        "lastname": {
-                                            "type": "string",
-                                            "example": "DoeNew"
-                                        },
-                                        "username": {
-                                            "type": "string",
-                                            "example": "johndoe123"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorized: Invalid credentials",
+                    "404": {
+                        "description": "User not found",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "msg": {
                                             "type": "string",
-                                            "example": "Invalid credentials"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/car-rental/api/v1/users/deletion/{id}": {
-            "delete": {
-                "tags": [
-                    "users"
-                ],
-                "summary": "Delete user",
-                "operationId": "86dba5bab4b5c9a30885077af1f60a99",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "name": "token",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "properties": {
-                                "token": {
-                                    "type": "string",
-                                    "example": "10293182301230123"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "msg": {
-                                            "type": "string",
-                                            "example": "delete users success"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Unauthorized: Invalid credentials",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "msg": {
-                                            "type": "string",
-                                            "example": "Invalid credentials"
+                                            "example": "User not found"
                                         }
                                     },
                                     "type": "object"
