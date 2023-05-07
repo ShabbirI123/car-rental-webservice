@@ -258,6 +258,48 @@
                                                 }
                                             },
                                             "type": "object"
+                                        },
+                                        "vehicle_type": {
+                                            "properties": {
+                                                "vehicle-id": {
+                                                    "type": "number",
+                                                    "example": "1"
+                                                },
+                                                "vehicle-name": {
+                                                    "type": "string",
+                                                    "example": "Toyota Hybrid"
+                                                },
+                                                "transmission": {
+                                                    "type": "string",
+                                                    "example": "automatic"
+                                                },
+                                                "daily-rate": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": "3.8"
+                                                },
+                                                "seats": {
+                                                    "type": "number",
+                                                    "example": "5"
+                                                },
+                                                "price": {
+                                                    "type": "number",
+                                                    "example": "15"
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "http://base-url/path/to/image"
+                                                },
+                                                "available": {
+                                                    "type": "boolean",
+                                                    "example": "true"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2021-12-11T09:25:53.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -300,7 +342,7 @@
                     }
                 ],
                 "responses": {
-                    "204": {
+                    "200": {
                         "description": "Canceled",
                         "content": {
                             "application/json": {
@@ -351,7 +393,7 @@
                     }
                 ],
                 "responses": {
-                    "204": {
+                    "200": {
                         "description": "Canceled",
                         "content": {
                             "application/json": {
