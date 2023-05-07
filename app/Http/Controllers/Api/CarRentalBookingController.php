@@ -103,7 +103,7 @@ class CarRentalBookingController extends Controller
         $invoice = new Invoices([
             'customer_id' => $validatedData['user_id'],
             'total_amount' => $validatedData['amount'],
-            'original_currency' => 'US-Dollar',
+            'original_currency' => 'USD',
             'total_amount_selected_currency' => (double) $price,
             'selected_currency' => $validatedData['currency'],
             'invoice_date' => now(),
@@ -120,13 +120,15 @@ class CarRentalBookingController extends Controller
         $vehicle->available = false;
         $vehicle->save();
 
+        $startDate = Carbon::parse($validatedData['start_date']);
+        $endDate = Carbon::parse($validatedData['end_date']);
         // Create Rental
         $rental = new Rentals([
             'customer_id' => $validatedData['user_id'],
             'vehicle_id' => $validatedData['vehicle_id'],
             'start_date' => $validatedData['start_date'],
             'end_date' => $validatedData['end_date'],
-            'total_days' => now()->diffInDays(Carbon::parse($validatedData['end_date'])),
+            'total_days' => $startDate->diffInDays($endDate),
             'invoice_id' => $invoice_id,
         ]);
 
@@ -188,7 +190,18 @@ class CarRentalBookingController extends Controller
      *                  @OA\Property(property="location_id", type="integer", example=1),
      *                  @OA\Property(property="available", type="boolean", example=true),
      *                  @OA\Property(property="updated_at", type="string", format="date-time", example="2023-03-18T09:25:53.000000Z"),
-     *              )
+     *              ),
+     *              @OA\Property(property="vehicle_type", type="object",
+     *                     @OA\Property(property="vehicle-id",type="number",example="1"),
+     *                     @OA\Property(property="vehicle-name",type="string",example="Toyota Hybrid"),
+     *                     @OA\Property(property="transmission",type="string",example="automatic"),
+     *                     @OA\Property(property="daily-rate",type="float",example="3.8"),
+     *                     @OA\Property(property="seats",type="number",example="5"),
+     *                     @OA\Property(property="price",type="number",example="15"),
+     *                     @OA\Property(property="image",type="string",example="http://base-url/path/to/image"),
+     *                     @OA\Property(property="available",type="boolean",example="true"),
+     *                     @OA\Property(property="created_at",type="string",example="2021-12-11T09:25:53.000000Z")
+     *                 ),
      *         )
      *     ),
      *     @OA\Response(
@@ -210,11 +223,14 @@ class CarRentalBookingController extends Controller
         // Fetch the vehicle data using the vehicle_id
         $vehicle = Vehicles::findOrFail($booking->vehicle_id);
 
+        $vehicle_type = VehicleTypes::findOrFail($vehicle->vehicle_type_id);
+
         // Combine the booking, invoice, and vehicle data into a single array
         $booking_data = [
             'booking' => $booking,
             'invoice' => $invoice,
-            'vehicle' => $vehicle
+            'vehicle' => $vehicle,
+            'vehicle_type' => $vehicle_type
         ];
 
         return response()->json($booking_data, 200);
