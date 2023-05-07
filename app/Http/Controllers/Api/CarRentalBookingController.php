@@ -52,8 +52,6 @@ class CarRentalBookingController extends Controller
      */
     public function createBooking(Request $request)
     {
-        $price = 0;
-
         // Validate customer_id and vehicle_id
         $validatedData = $request->validate([
             'user_id' => 'required|integer|exists:customers,customer_id',
@@ -82,9 +80,9 @@ class CarRentalBookingController extends Controller
    <soapenv:Body>
       <your:convert>
          <your:api_key>apikey1</your:api_key>
-         <your:base_currency>'.$validatedData['currency'].'</your:base_currency>
+         <your:base_currency>' . $validatedData['currency'] . '</your:base_currency>
          <your:target_currency>USD</your:target_currency>
-         <your:amount>'.$validatedData['amount'].'</your:amount>
+         <your:amount>' . $validatedData['amount'] . '</your:amount>
       </your:convert>
    </soapenv:Body>
 </soapenv:Envelope>',
@@ -97,14 +95,18 @@ class CarRentalBookingController extends Controller
             $price = curl_exec($curl);
 
             curl_close($curl);
+            $basePrice = $validatedData['amount'];
+        else:
+            $basePrice = $validatedData['amount'];
+            $price = $validatedData['amount'];
         endif;
 
         // Create Invoice
         $invoice = new Invoices([
             'customer_id' => $validatedData['user_id'],
-            'total_amount' => $validatedData['amount'],
+            'total_amount' => $basePrice,
             'original_currency' => 'USD',
-            'total_amount_selected_currency' => (double) $price,
+            'total_amount_selected_currency' => (double)$price,
             'selected_currency' => $validatedData['currency'],
             'invoice_date' => now(),
             'payment_status' => 'Paid',
@@ -295,8 +297,8 @@ class CarRentalBookingController extends Controller
             $vehicle = Vehicles::where('vehicle_id', $booking->vehicle_id)->get();
             $vehicle_type = VehicleTypes::where('vehicle_type_id', $vehicle[0]->vehicle_type_id)->get();
             array_push($data, [
-               'booking' => $booking,
-               'vehicle_type' => $vehicle_type[0]
+                'booking' => $booking,
+                'vehicle_type' => $vehicle_type[0]
             ]);
         endforeach;
 
