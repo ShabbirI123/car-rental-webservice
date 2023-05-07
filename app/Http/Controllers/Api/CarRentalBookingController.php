@@ -288,7 +288,6 @@ class CarRentalBookingController extends Controller
      */
     public function getUserBookings($user_id)
     {
-        //TODO Fehler
         $data = [];
         $bookings = Rentals::where('customer_id', $user_id)->get();
 
