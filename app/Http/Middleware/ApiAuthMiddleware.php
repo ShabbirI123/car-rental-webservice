@@ -20,11 +20,11 @@ class ApiAuthMiddleware
         $clientIp = $request->ip();
 
         if ($clientIp !== '127.0.0.1') {
-            $apiKey = Config::get('API_KEY');
+            $apiKey = env('API_KEY');
 
             $requestApiKey = $request->header('API-Key');
 
-            if ($requestApiKey && $requestApiKey === $apiKey) {
+            if ($requestApiKey === $apiKey) {
                 return $next($request);
             }
 

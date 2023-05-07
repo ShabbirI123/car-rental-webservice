@@ -24,7 +24,7 @@ class VehicleTypesTableSeeder extends Seeder
                 'price' => 24.5,
                 'transmission' => 'Automatic',
                 'daily_rate' => 45.0,
-                'image' => 'toyota_prius_hybrid.jpg'
+                'image' => 'https://saucy-sedans-images.s3.eu-central-1.amazonaws.com/Toyota+Prius+Hybrid.jpg'
             ],
             [
                 'name' => 'Volkswagen Golf',
@@ -32,7 +32,7 @@ class VehicleTypesTableSeeder extends Seeder
                 'price' => 20.5,
                 'transmission' => 'Manual',
                 'daily_rate' => 35.0,
-                'image' => 'volkswagen_golf.jpg'
+                'image' => 'https://saucy-sedans-images.s3.eu-central-1.amazonaws.com/Volkswagen+Golf.jpg'
             ],
             [
                 'name' => 'BMW 3 Series',
@@ -40,7 +40,7 @@ class VehicleTypesTableSeeder extends Seeder
                 'price' => 32.0,
                 'transmission' => 'Automatic',
                 'daily_rate' => 60.0,
-                'image' => 'bmw_3_series.jpg'
+                'image' => 'https://saucy-sedans-images.s3.eu-central-1.amazonaws.com/BMW+3+Series.jpg'
             ],
             [
                 'name' => 'Mercedes-Benz C-Class',
@@ -48,7 +48,7 @@ class VehicleTypesTableSeeder extends Seeder
                 'price' => 35.0,
                 'transmission' => 'Automatic',
                 'daily_rate' => 65.0,
-                'image' => 'mercedes_benz_c_class.jpg'
+                'image' => 'https://saucy-sedans-images.s3.eu-central-1.amazonaws.com/Mercedes-Benz+C-Class.jpg'
             ],
             [
                 'name' => 'Audi A4',
@@ -56,7 +56,7 @@ class VehicleTypesTableSeeder extends Seeder
                 'price' => 30.5,
                 'transmission' => 'Manual',
                 'daily_rate' => 55.0,
-                'image' => 'audi_a4.jpg'
+                'image' => 'https://saucy-sedans-images.s3.eu-central-1.amazonaws.com/Audi+A4.jpg'
             ],
             [
                 'name' => 'Ford Focus',
@@ -64,7 +64,7 @@ class VehicleTypesTableSeeder extends Seeder
                 'price' => 18.0,
                 'transmission' => 'Manual',
                 'daily_rate' => 32.0,
-                'image' => 'ford_focus.jpg'
+                'image' => 'https://saucy-sedans-images.s3.eu-central-1.amazonaws.com/Ford+Focus.jpg'
             ],
             [
                 'name' => 'Honda Civic',
@@ -72,7 +72,7 @@ class VehicleTypesTableSeeder extends Seeder
                 'price' => 20.0,
                 'transmission' => 'Manual',
                 'daily_rate' => 35.0,
-                'image' => 'honda_civic.jpg'
+                'image' => 'https://saucy-sedans-images.s3.eu-central-1.amazonaws.com/honda+civic.jpg'
             ],
             [
                 'name' => 'Nissan Leaf',
@@ -80,7 +80,7 @@ class VehicleTypesTableSeeder extends Seeder
                 'price' => 23.5,
                 'transmission' => 'Automatic',
                 'daily_rate' => 40.0,
-                'image' => 'nissan_leaf.jpg'
+                'image' => 'https://saucy-sedans-images.s3.eu-central-1.amazonaws.com/Nissan+Leaf.jpg'
             ],
             [
                 'name' => 'Mazda 3',
@@ -88,7 +88,7 @@ class VehicleTypesTableSeeder extends Seeder
                 'price' => 20.5,
                 'transmission' => 'Manual',
                 'daily_rate' => 35.0,
-                'image' => 'mazda_3.jpg'
+                'image' => 'https://saucy-sedans-images.s3.eu-central-1.amazonaws.com/Mazda+3.jpg'
             ],
             [
                 'name' => 'Chevrolet Cruze',
@@ -96,7 +96,7 @@ class VehicleTypesTableSeeder extends Seeder
                 'price' => 18.5,
                 'transmission' => 'Manual',
                 'daily_rate' => 32.0,
-                'image' => 'chevrolet_cruze.jpg'
+                'image' => 'https://saucy-sedans-images.s3.eu-central-1.amazonaws.com/Chevrolet+Cruze.jpg'
             ],
         ];
 
