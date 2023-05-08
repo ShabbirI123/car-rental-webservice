@@ -136,7 +136,7 @@ class CarRentalCurrencyController extends Controller
 
         // Return response if everything is successful
         return response()->json([
-            'currency_amount' => json_decode($list, true)
+            'currency_list' => json_decode($list, true)
         ], 201);
     }
 }

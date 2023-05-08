@@ -39,7 +39,7 @@ class CarRentalCurrencyControllerTest extends TestCase
         $response
             ->assertStatus(201)
             ->assertJsonStructure([
-                'currency_amount',
+                'currency_list',
             ]);
     }
 }
