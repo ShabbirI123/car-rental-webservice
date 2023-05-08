@@ -92,10 +92,10 @@ class CarRentalBookingController extends Controller
                 ),
             ));
 
-            $price = curl_exec($curl);
-
+            $basePrice = curl_exec($curl);
             curl_close($curl);
-            $basePrice = $validatedData['amount'];
+
+            $price = $validatedData['amount'];
         else:
             $basePrice = $validatedData['amount'];
             $price = $validatedData['amount'];
@@ -106,7 +106,7 @@ class CarRentalBookingController extends Controller
             'customer_id' => $validatedData['user_id'],
             'total_amount' => $basePrice,
             'original_currency' => 'USD',
-            'total_amount_selected_currency' => (double)$price,
+            'total_amount_selected_currency' => (double) $price,
             'selected_currency' => $validatedData['currency'],
             'invoice_date' => now(),
             'payment_status' => 'Paid',
