@@ -61,6 +61,11 @@ jobs:
         test-plan-path: tests/jmeter/Car_Rental_Service.jmx
         args: ''
       #run: bzt tests/jmeter/Car_Rental_Service.jmx
+    - name: Upload Results
+      uses: actions/upload-artifact@v2
+      with:
+        name: jmeter-results
+        path: result.jtl
     - name: Create Database
       run: |
         mkdir -p database
