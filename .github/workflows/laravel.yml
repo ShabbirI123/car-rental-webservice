@@ -35,6 +35,8 @@ jobs:
       run: php artisan test
     - name: Start Server
       run: php artisan serve &
+    - name: Migrate
+      run: php artisan migrate
     - name: Install Newman
       run: npm install -g newman
     - name: Postman tests
