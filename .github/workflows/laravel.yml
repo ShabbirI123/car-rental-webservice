@@ -5,7 +5,6 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
 jobs:
   CI_Car_Rental_Webservice:
 
@@ -34,13 +33,11 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: php artisan test
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-    - name: Install newman
+    - name: Start Server
+      run: php artisan serve &
+    - name: Install Newman
       run: npm install -g newman
-    - name: Run API tests
+    - name: Postman tests
       run: newman run tests/postman/Car_Rental.postman_collection.json
     - name: Install Taurus
       run: |
