@@ -28,11 +28,6 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
-    - name: Execute tests (Unit and Feature tests) via PHPUnit
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
-      run: php artisan test
     - name: Start Server
     - name: Install Newman
       run: npm install -g newman
@@ -44,6 +39,11 @@ jobs:
        php artisan serve &
        php artisan migrate
        newman run tests/postman/Car_Rental.postman_collection.json
+    - name: Execute tests (Unit and Feature tests) via PHPUnit
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
+      run: php artisan test
     - name: Install Taurus
       run: |
         sudo apt-get update
