@@ -66,3 +66,4 @@ jobs:
         pip3 install bzt
     - name: Run JMeter tests
       run: bzt tests/jmeter/Car_Rental_Service.jmx
+      timeout-minutes: 1
