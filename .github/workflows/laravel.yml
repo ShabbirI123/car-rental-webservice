@@ -34,16 +34,16 @@ jobs:
         DB_DATABASE: database/database.sqlite
       run: php artisan test
     - name: Start Server
-      run: php artisan serve &
-    - name: Migrate
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
-      run: php artisan migrate
     - name: Install Newman
       run: npm install -g newman
     - name: Postman tests
-      run: newman run tests/postman/Car_Rental.postman_collection.json
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
+      run: |
+       php artisan serve &
+       php artisan migrate
+       newman run tests/postman/Car_Rental.postman_collection.json
     - name: Install Taurus
       run: |
         sudo apt-get update
