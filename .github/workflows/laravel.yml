@@ -65,5 +65,9 @@ jobs:
         sudo apt-get install -y python3 python3-pip
         pip3 install bzt
     - name: Run JMeter tests
-      run: bzt tests/jmeter/Car_Rental_Service.jmx
+      uses: QAInsights/PerfAction@v3.1
+      with:
+        test-plan-path: tests/jmeter/Car_Rental_Service.jmx
+        args: ''
+      #run: bzt tests/jmeter/Car_Rental_Service.jmx
       timeout-minutes: 1
