@@ -164,8 +164,6 @@ class CarRentalUserController extends Controller
                 $user->save();
 
                 return response()->json(['msg' => 'Registration successful'], 201);
-            } else {
-                return response()->json(['msg' => 'User already exists'], 409);
             }
         } catch (Exception $exception) {
             return response()->json(['msg' => $exception->getMessage()], 500);
