@@ -10,6 +10,17 @@ jobs:
   CI_Car_Rental_Webservice:
 
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_DATABASE: laravel
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        ports:
+          - 3306:3306
+
     steps:
     - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
       with:
@@ -25,6 +36,36 @@ jobs:
       run: php artisan key:generate
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
+    - name: Start Server
+      run: php artisan serve &
+    - name: Setup car_rental MySQL
+      env:
+        DB_HOST: 127.0.0.1
+        DB_PORT: 3306
+        DB_DATABASE: laravel
+        DB_USERNAME: root
+        DB_PASSWORD: ''
+      run: php artisan migrate
+    - name: Install Newman
+      run: npm install -g newman
+    - name: Postman tests
+      run: newman run tests/postman/Car_Rental.postman_collection.json
+    - name: Install Taurus
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3 python3-pip
+        pip3 install bzt
+    - name: Run JMeter tests
+      uses: QAInsights/PerfAction@v3.1
+      with:
+        test-plan-path: tests/jmeter/Car_Rental_Service.jmx
+        args: ''
+      #run: bzt tests/jmeter/Car_Rental_Service.jmx
+    - name: Upload Results
+      uses: actions/upload-artifact@v2
+      with:
+        name: jmeter-results
+        path: result.jtl
     - name: Create Database
       run: |
         mkdir -p database
@@ -34,18 +75,3 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: php artisan test
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
-    - name: Install newman
-      run: npm install -g newman
-    - name: Run API tests
-      run: newman run tests/postman/Car_Rental.postman_collection.json
-    - name: Install Taurus
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y python3 python3-pip
-        pip3 install bzt
-    - name: Run JMeter tests
-      run: bzt tests/jmeter/Car_Rental_Service.jmx
