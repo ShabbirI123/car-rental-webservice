@@ -38,11 +38,11 @@ jobs:
       run: chmod -R 777 storage bootstrap/cache
     - name: Start Server
       run: php artisan serve &
-    - name: Setup test MySQL
+    - name: Setup car_rental MySQL
       env:
         DB_HOST: 127.0.0.1
         DB_PORT: 3306
-        DB_DATABASE: test
+        DB_DATABASE: car_rental
         DB_USERNAME: root
         DB_PASSWORD: ''
       run: php artisan migrate
@@ -50,6 +50,10 @@ jobs:
       run: npm install -g newman
     - name: Postman tests
       run: newman run tests/postman/Car_Rental.postman_collection.json
+    - name: Create Database
+      run: |
+        mkdir -p database
+        touch database/database.sqlite
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite
