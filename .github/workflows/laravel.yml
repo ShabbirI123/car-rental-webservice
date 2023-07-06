@@ -50,15 +50,6 @@ jobs:
       run: npm install -g newman
     - name: Postman tests
       run: newman run tests/postman/Car_Rental.postman_collection.json
-    - name: Create Database
-      run: |
-        mkdir -p database
-        touch database/database.sqlite
-    - name: Execute tests (Unit and Feature tests) via PHPUnit
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
-      run: php artisan test
     - name: Install Taurus
       run: |
         sudo apt-get update
@@ -70,4 +61,12 @@ jobs:
         test-plan-path: tests/jmeter/Car_Rental_Service.jmx
         args: ''
       #run: bzt tests/jmeter/Car_Rental_Service.jmx
-      timeout-minutes: 1
+    - name: Create Database
+      run: |
+        mkdir -p database
+        touch database/database.sqlite
+    - name: Execute tests (Unit and Feature tests) via PHPUnit
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
+      run: php artisan test
